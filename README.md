@@ -1,6 +1,11 @@
 div.js
 ======
 
+*div.js* is a div's css manipulation abstraction.
+
+Usage
+-----
+
 ```html
 <script type="text/javascript" src="path/to/div.js"></script>
 ```
