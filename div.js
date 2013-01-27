@@ -20,11 +20,12 @@ this.div = (function (window) {
 
     var div = function (styles) {
         var dom = window.document.createElement('div');
-        this.dom = dom;
-        this.style = dom.style;
+
         Object.keys(styles || {}).forEach(function (key) {
             dom.style[key] = styles[key];
         });
+
+        this.dom = dom;
         this.met = {
             x: 0,
             y: 0,
@@ -36,18 +37,22 @@ this.div = (function (window) {
         };
     };
 
-    div.prototype.constructor = div;
+    var reflectToDom = function (dom, met) {
+        reflectTransformationToDom(dom, met);
+        reflectBackgroundColorToDom(dom, met);
+    };
 
-    div.prototype.reflectBackgroundColorToDom = function () {
-        this.style.backgroundColor = (
-            'hsl(' + this.met.hue + ',' + this.met.sat + '%,' + this.met.lum + '%)'
+    var reflectBackgroundColorToDom = function (dom, met) {
+        dom.style.backgroundColor = (
+            'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)'
         );
     };
-    div.prototype.reflectTransformationToDom = function () {
-        this.style.webkitTransform = (
-            'translate(' + this.met.x + 'px,' + this.met.y + 'px)' +
-            ' rotate(' + this.met.rot + 'deg)' +
-            ' scale(' + this.met.scale / 100 + ')'
+
+    var reflectTransformationToDom = function (dom, met) {
+        dom.style.webkitTransform = (
+            'translate(' + met.x + 'px,' + met.y + 'px)' +
+            ' rotate(' + met.rot + 'deg)' +
+            ' scale(' + met.scale / 100 + ')'
         );
     };
 
@@ -135,17 +140,16 @@ this.div = (function (window) {
         });
     };
     div.prototype.commit = function () {
-        this.reflectToDom();
-    };
-
-    div.prototype.reflectToDom = function () {
-        this.reflectTransformationToDom();
-        this.reflectBackgroundColorToDom();
+        reflectToDom(this.dom, this.met);
     };
 
     var exports = function (styles) {
         return new div(styles);
     };
+
+    exports.prototype = div.prototype;
+
+    div.prototype.constructor = exports;
 
     return exports;
 }(this));
