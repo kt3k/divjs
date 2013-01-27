@@ -50,6 +50,55 @@ this.div = (function (window) {
             ' scale(' + this.met.scale / 100 + ')'
         );
     };
+
+    var methodAdd = function (key) {
+        return function (val) {
+            this.met[key] += val;
+            return this;
+        };
+    };
+
+    var methodSet = function (key) {
+        return function (val) {
+            this.met[key] = val;
+            return this;
+        };
+    };
+
+    var methodGet = function (key) {
+        return function () {
+            return this.met[key];
+        };
+    };
+
+    div.prototype.addX = methodAdd('x');
+    div.prototype.setX = methodSet('x');
+    div.prototype.getX = methodGet('x');
+
+    div.prototype.addY = methodAdd('y');
+    div.prototype.setY = methodSet('y');
+    div.prototype.getY = methodGet('y');
+
+    div.prototype.addScale = methodAdd('scale');
+    div.prototype.setScale = methodSet('scale');
+    div.prototype.getScale = methodGet('scale');
+
+    div.prototype.addRot = methodAdd('rot');
+    div.prototype.setRot = methodSet('rot');
+    div.prototype.getRot = methodGet('rot');
+
+    div.prototype.addHue = methodAdd('hue');
+    div.prototype.setHue = methodSet('hue');
+    div.prototype.getHue = methodGet('hue');
+
+    div.prototype.addSat = methodAdd('sat');
+    div.prototype.setSat = methodSet('sat');
+    div.prototype.getSat = methodGet('sat');
+
+    div.prototype.addLum = methodAdd('lum');
+    div.prototype.setLum = methodSet('lum');
+    div.prototype.getLum = methodGet('lum');
+
     div.prototype.scale = function (scale) {
         this.mergeAdd({scale: scale});
         return this;
