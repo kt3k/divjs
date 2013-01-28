@@ -104,41 +104,6 @@ this.div = (function (window) {
     div.prototype.setLum = methodSet('lum');
     div.prototype.getLum = methodGet('lum');
 
-    div.prototype.scale = function (scale) {
-        this.mergeAdd({scale: scale});
-        return this;
-    };
-    div.prototype.setScale = function (scale) {
-        this.mergeSet({scale: scale});
-        return this;
-    };
-    div.prototype.rotate = function (deg) {
-        this.mergeAdd({rot: deg});
-        return this;
-    };
-    div.prototype.setRotate = function (deg) {
-        this.mergeSet({rot: deg});
-    };
-    div.prototype.translate = function (x, y) {
-        this.mergeAdd({x: x, y: y});
-        return this;
-    };
-    div.prototype.hsl = function (h, s, l) {
-        this.mergeAdd({hue: h, sat: s, lum: l});
-        return this;
-    };
-    div.prototype.mergeAdd = function (args) {
-        var self = this;
-        Object.keys(args).forEach(function (key) {
-            self.met[key] += args[key] || 0;
-        });
-    };
-    div.prototype.mergeSet = function (args) {
-        var self = this;
-        Object.keys(args).forEach(function (key) {
-            self.met[key] = args[key] || 0;
-        });
-    };
     div.prototype.commit = function () {
         reflectToDom(this.dom, this.met);
     };
