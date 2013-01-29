@@ -1,9 +1,9 @@
 div.js
 ======
 
-*div.js* is a div's the abstraction of manipulation of style.webkitTransform and style.backgroundColor.
+*div.js* is an abstraction of the manipulation of style.webkitTransform and style.backgroundColor of `div` elements.
 
-*div.js* is the building block of *the rectangular programming*.
+It is a basic component of *Rectangular Programming* on browsers.
 
 Usage
 -----
