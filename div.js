@@ -28,23 +28,15 @@ this.div = (function (window) {
 
         this.dom = dom;
         this.met = {
-            x: div.x,
-            y: div.y,
-            rot: div.rot,
-            scale: div.scale,
-            hue: div.hue,
-            sat: div.sat,
-            lum: div.lum
+            x: exports.x,
+            y: exports.y,
+            rot: exports.rot,
+            scale: exports.scale,
+            hue: exports.hue,
+            sat: exports.sat,
+            lum: exports.lum
         };
     };
-
-    div.x = 0;
-    div.y = 0;
-    div.rot = 0;
-    div.scale = 100;
-    div.hue = 0;
-    div.sat = 0;
-    div.lum = 100;
 
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
@@ -52,23 +44,11 @@ this.div = (function (window) {
     };
 
     var reflectBackgroundColorToDom = function (dom, met) {
-        dom.style.backgroundColor = div.backgroundColor(met);
+        dom.style.backgroundColor = exports.backgroundColor(met);
     };
 
     var reflectTransformationToDom = function (dom, met) {
-        dom.style.webkitTransform = div.webkitTransform(met);
-    };
-
-    div.webkitTransform = function (met) {
-        return (
-            'translate(' + met.x + 'px,' + met.y + 'px)' +
-            ' rotate(' + met.rot + 'deg)' +
-            ' scale(' + met.scale / 100 + ')'
-        );
-    };
-
-    div.backgroundColor = function (met) {
-        return 'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)';
+        dom.style.webkitTransform = exports.webkitTransform(met);
     };
 
     var method = function (func) {
@@ -130,6 +110,26 @@ this.div = (function (window) {
     exports.prototype = div.prototype;
 
     div.prototype.constructor = exports;
+
+    exports.x = 0;
+    exports.y = 0;
+    exports.rot = 0;
+    exports.scale = 100;
+    exports.hue = 0;
+    exports.sat = 0;
+    exports.lum = 100;
+
+    exports.webkitTransform = function (met) {
+        return (
+            'translate(' + met.x + 'px,' + met.y + 'px)' +
+            ' rotate(' + met.rot + 'deg)' +
+            ' scale(' + met.scale / 100 + ')'
+        );
+    };
+
+    exports.backgroundColor = function (met) {
+        return 'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)';
+    };
 
     return exports;
 }(this));
