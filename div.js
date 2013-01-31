@@ -28,15 +28,23 @@ this.div = (function (window) {
 
         this.dom = dom;
         this.met = {
-            x: 0,
-            y: 0,
-            rot: 0,
-            scale: 100,
-            hue: 0,
-            sat: 0,
-            lum: 100
+            x: div.x,
+            y: div.y,
+            rot: div.rot,
+            scale: div.scale,
+            hue: div.hue,
+            sat: div.sat,
+            lum: div.lum
         };
     };
+
+    div.x = 0;
+    div.y = 0;
+    div.rot = 0;
+    div.scale = 100;
+    div.hue = 0;
+    div.sat = 0;
+    div.lum = 100;
 
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
@@ -44,17 +52,23 @@ this.div = (function (window) {
     };
 
     var reflectBackgroundColorToDom = function (dom, met) {
-        dom.style.backgroundColor = (
-            'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)'
-        );
+        dom.style.backgroundColor = div.backgroundColor(met);
     };
 
     var reflectTransformationToDom = function (dom, met) {
-        dom.style.webkitTransform = (
+        dom.style.webkitTransform = div.webkitTransform(met);
+    };
+
+    div.webkitTransform = function (met) {
+        return (
             'translate(' + met.x + 'px,' + met.y + 'px)' +
             ' rotate(' + met.rot + 'deg)' +
             ' scale(' + met.scale / 100 + ')'
         );
+    };
+
+    div.backgroundColor = function (met) {
+        return 'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)';
     };
 
     var method = function (func) {
