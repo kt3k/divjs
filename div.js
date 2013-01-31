@@ -15,6 +15,7 @@
   * sat: [0, 100]
   * lum: [0, 100]
   */
+
 this.div = (function (window) {
     'use strict';
 
@@ -56,25 +57,25 @@ this.div = (function (window) {
         );
     };
 
-    var methodAdd = function (key) {
-        return function (val) {
-            this.met[key] += val;
-            return this;
+    var method = function (func) {
+        return function (key) {
+            return function (val) {
+                return func.call(this, key, val);
+            };
         };
     };
 
-    var methodSet = function (key) {
-        return function (val) {
-            this.met[key] = val;
-            return this;
-        };
-    };
+    var methodAdd = method(function (key, val) {
+        this.met[key] += val;
+    });
 
-    var methodGet = function (key) {
-        return function () {
-            return this.met[key];
-        };
-    };
+    var methodSet = method(function (key, val) {
+        this.met[key] = val;
+    });
+
+    var methodGet = method(function (key) {
+        return this.met[key];
+    });
 
     div.prototype.addX = methodAdd('x');
     div.prototype.setX = methodSet('x');
