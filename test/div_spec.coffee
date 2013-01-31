@@ -131,3 +131,11 @@ describe 'div', ->
       describe 'instance.dom.style.backgroundColor', ->
         it 'is "rgb(126, 107, 17)"', ->
           expect(instance.dom.style.backgroundColor).toBe 'rgb(126, 107, 17)'
+
+  describe 'div.webkitTransform', ->
+    it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->
+      expect(window.div.webkitTransform({x: 1, y: 2, rot: 3, scale:4})).toBe 'translate(1px,2px) rotate(3deg) scale(0.04)'
+
+  describe 'div.backgroundColor', ->
+    it 'return "hsl(45,60%,75%)"', ->
+      expect(window.div.backgroundColor({hue: 45, sat: 60, lum: 75})).toBe 'hsl(45,60%,75%)'

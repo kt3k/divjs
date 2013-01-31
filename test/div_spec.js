@@ -4,7 +4,7 @@
     it('is a function', function() {
       return expect(typeof window.div).toBe('function');
     });
-    return describe('instance of div', function() {
+    describe('instance of div', function() {
       var instance;
       instance = window.div();
       it('is a Object', function() {
@@ -140,6 +140,25 @@
             return expect(instance.dom.style.backgroundColor).toBe('rgb(126, 107, 17)');
           });
         });
+      });
+    });
+    describe('div.webkitTransform', function() {
+      return it('returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', function() {
+        return expect(window.div.webkitTransform({
+          x: 1,
+          y: 2,
+          rot: 3,
+          scale: 4
+        })).toBe('translate(1px,2px) rotate(3deg) scale(0.04)');
+      });
+    });
+    return describe('div.backgroundColor', function() {
+      return it('return "hsl(45,60%,75%)"', function() {
+        return expect(window.div.backgroundColor({
+          hue: 45,
+          sat: 60,
+          lum: 75
+        })).toBe('hsl(45,60%,75%)');
       });
     });
   });
