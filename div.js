@@ -22,9 +22,6 @@ this.div = (function (window) {
     var div = function (styles) {
         var dom = window.document.createElement('div');
 
-        Object.keys(styles || {}).forEach(function (key) {
-            dom.style[key] = styles[key];
-        });
 
         this.dom = dom;
         this.met = {
@@ -36,6 +33,16 @@ this.div = (function (window) {
             sat: exports.sat,
             lum: exports.lum
         };
+
+        this.css(styles);
+    };
+
+    div.prototype.css = function (styles) {
+        Object.keys(styles || {}).forEach(function (key) {
+            this.dom.style[key] = styles[key];
+        }, this);
+
+        return this;
     };
 
     var reflectToDom = function (dom, met) {
