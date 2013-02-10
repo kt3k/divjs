@@ -37,7 +37,9 @@ this.div = (function (window) {
         this.css(styles);
     };
 
-    div.prototype.css = function (styles) {
+    var pt = div.prototype;
+
+    pt.css = function (styles) {
         Object.keys(styles || {}).forEach(function (key) {
             this.dom.style[key] = styles[key];
         }, this);
@@ -78,35 +80,35 @@ this.div = (function (window) {
         return this.met[key];
     });
 
-    div.prototype.addX = methodAdd('x');
-    div.prototype.setX = methodSet('x');
-    div.prototype.getX = methodGet('x');
+    pt.addX = methodAdd('x');
+    pt.setX = methodSet('x');
+    pt.getX = methodGet('x');
 
-    div.prototype.addY = methodAdd('y');
-    div.prototype.setY = methodSet('y');
-    div.prototype.getY = methodGet('y');
+    pt.addY = methodAdd('y');
+    pt.setY = methodSet('y');
+    pt.getY = methodGet('y');
 
-    div.prototype.addScale = methodAdd('scale');
-    div.prototype.setScale = methodSet('scale');
-    div.prototype.getScale = methodGet('scale');
+    pt.addScale = methodAdd('scale');
+    pt.setScale = methodSet('scale');
+    pt.getScale = methodGet('scale');
 
-    div.prototype.addRot = methodAdd('rot');
-    div.prototype.setRot = methodSet('rot');
-    div.prototype.getRot = methodGet('rot');
+    pt.addRot = methodAdd('rot');
+    pt.setRot = methodSet('rot');
+    pt.getRot = methodGet('rot');
 
-    div.prototype.addHue = methodAdd('hue');
-    div.prototype.setHue = methodSet('hue');
-    div.prototype.getHue = methodGet('hue');
+    pt.addHue = methodAdd('hue');
+    pt.setHue = methodSet('hue');
+    pt.getHue = methodGet('hue');
 
-    div.prototype.addSat = methodAdd('sat');
-    div.prototype.setSat = methodSet('sat');
-    div.prototype.getSat = methodGet('sat');
+    pt.addSat = methodAdd('sat');
+    pt.setSat = methodSet('sat');
+    pt.getSat = methodGet('sat');
 
-    div.prototype.addLum = methodAdd('lum');
-    div.prototype.setLum = methodSet('lum');
-    div.prototype.getLum = methodGet('lum');
+    pt.addLum = methodAdd('lum');
+    pt.setLum = methodSet('lum');
+    pt.getLum = methodGet('lum');
 
-    div.prototype.commit = function () {
+    pt.commit = function () {
         reflectToDom(this.dom, this.met);
     };
 
@@ -114,9 +116,9 @@ this.div = (function (window) {
         return new div(styles);
     };
 
-    exports.prototype = div.prototype;
+    pt.constructor = exports;
 
-    div.prototype.constructor = exports;
+    exports.prototype = pt;
 
     exports.x = 0;
     exports.y = 0;
