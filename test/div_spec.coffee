@@ -138,7 +138,7 @@ describe 'div', ->
         instance.css(fontSize: 'x-small')
         expect(instance.dom.style.fontSize).toBe 'x-small'
 
-      it 'doesn\'t nothing (not raise error) if undefined or null passed as argument', ->
+      it 'doesn\'t do nothing (not raise error) if undefined or null passed as argument', ->
         instance.css()
         expect(1).toBe 1
 
