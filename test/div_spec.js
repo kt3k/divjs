@@ -153,7 +153,7 @@
           instance.css();
           return expect(1).toBe(1);
         });
-        return it('return instance itself', function() {
+        return it('returns instance itself', function() {
           return expect(instance.css()).toBe(instance);
         });
       });

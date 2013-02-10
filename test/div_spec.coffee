@@ -142,7 +142,7 @@ describe 'div', ->
         instance.css()
         expect(1).toBe 1
 
-      it 'return instance itself', ->
+      it 'returns instance itself', ->
         expect(instance.css()).toBe instance
 
 
