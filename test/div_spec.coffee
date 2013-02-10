@@ -120,6 +120,7 @@ describe 'div', ->
 
       it 'is 28 when instance.addLum(-69)', ->
         instance.addLum -69
+        expect(instance.getLum()).toBe 28
 
     describe 'instance.commit() makes', ->
 
@@ -131,6 +132,19 @@ describe 'div', ->
       describe 'instance.dom.style.backgroundColor', ->
         it 'is "rgb(126, 107, 17)"', ->
           expect(instance.dom.style.backgroundColor).toBe 'rgb(126, 107, 17)'
+
+    describe 'instance.css(style)', ->
+      it 'sets arbitrary style to instance.dom', ->
+        instance.css(fontSize: 'x-small')
+        expect(instance.dom.style.fontSize).toBe 'x-small'
+
+      it 'doesn\'t nothing (not raise error) if undefined or null passed as argument', ->
+        instance.css()
+        expect(1).toBe 1
+
+      it 'return instance itself', ->
+        expect(instance.css()).toBe instance
+
 
   describe 'div.webkitTransform', ->
     it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->

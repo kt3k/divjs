@@ -125,10 +125,11 @@
           return expect(instance.getLum()).toBe(97);
         });
         return it('is 28 when instance.addLum(-69)', function() {
-          return instance.addLum(-69);
+          instance.addLum(-69);
+          return expect(instance.getLum()).toBe(28);
         });
       });
-      return describe('instance.commit() makes', function() {
+      describe('instance.commit() makes', function() {
         describe('instance.dom.style.webkitTransform', function() {
           return it('is "translate(45px, 99px) rotate(200deg) scale(0.97)"', function() {
             instance.commit();
@@ -139,6 +140,21 @@
           return it('is "rgb(126, 107, 17)"', function() {
             return expect(instance.dom.style.backgroundColor).toBe('rgb(126, 107, 17)');
           });
+        });
+      });
+      return describe('instance.css(style)', function() {
+        it('sets arbitrary style to instance.dom', function() {
+          instance.css({
+            fontSize: 'x-small'
+          });
+          return expect(instance.dom.style.fontSize).toBe('x-small');
+        });
+        it('doesn\'t nothing (not raise error) if undefined or null passed as argument', function() {
+          instance.css();
+          return expect(1).toBe(1);
+        });
+        return it('return instance itself', function() {
+          return expect(instance.css()).toBe(instance);
         });
       });
     });
