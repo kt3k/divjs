@@ -34,6 +34,10 @@ this.div = (function (window) {
             lum: exports.lum
         };
 
+        this.prevMet = {};
+
+        copyObject(this.met, this.prevMet);
+
         this.css(styles);
     };
 
@@ -60,6 +64,24 @@ this.div = (function (window) {
         dom.style.webkitTransform = exports.webkitTransform(met);
     };
 
+    var copyObject = function (src, dest) {
+        Object.keys(src).forEach(function (key) {
+            dest[key] = src[key];
+        });
+    };
+
+    var getDiff = function (x, y) {
+        var res = {};
+
+        Object.keys(x).forEach(function (key) {
+            if (x[key] !== y[key]) {
+                res[key] = x[key] - y[key];
+            }
+        });
+
+        return res;
+    };
+
     var method = function (func) {
         return function (key) {
             return function (val) {
@@ -70,10 +92,12 @@ this.div = (function (window) {
 
     var methodAdd = method(function (key, val) {
         this.met[key] += val;
+        return this;
     });
 
     var methodSet = method(function (key, val) {
         this.met[key] = val;
+        return this;
     });
 
     var methodGet = method(function (key) {
@@ -109,7 +133,12 @@ this.div = (function (window) {
     pt.getLum = methodGet('lum');
 
     pt.commit = function () {
+        copyObject(this.met, this.prevMet);
         reflectToDom(this.dom, this.met);
+    };
+
+    pt.getDiff = function () {
+        return getDiff(this.met, this.prevMet);
     };
 
     var exports = function (styles) {
