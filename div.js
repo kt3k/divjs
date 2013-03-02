@@ -135,6 +135,8 @@ this.div = (function (window) {
     pt.commit = function () {
         copyObject(this.met, this.prevMet);
         reflectToDom(this.dom, this.met);
+
+        return this;
     };
 
     pt.getDiff = function () {

@@ -151,7 +151,10 @@
           return expect(instance.addLum(0)).toBe(instance);
         });
       });
-      describe('instance.commit() makes', function() {
+      describe('instance.commit()', function() {
+        it('returns instance itself', function() {
+          return expect(instance.commit()).toBe(instance);
+        });
         describe('instance.dom.style.webkitTransform', function() {
           return it('is "translate({x}px, {y}px) rotate({rot}deg) scale({scale/100})" according to current x, y, rot and scale', function() {
             instance.setX(45).setY(99).setRot(200).setScale(97).commit();

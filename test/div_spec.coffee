@@ -142,7 +142,11 @@ describe 'div', ->
         expect(instance.addSat 0).toBe instance
         expect(instance.addLum 0).toBe instance
 
-    describe 'instance.commit() makes', ->
+    describe 'instance.commit()', ->
+
+      it 'returns instance itself', ->
+
+        expect(instance.commit()).toBe instance
 
       describe 'instance.dom.style.webkitTransform', ->
 
