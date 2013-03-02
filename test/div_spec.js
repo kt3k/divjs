@@ -172,7 +172,7 @@
           });
           return expect(instance.dom.style.fontSize).toBe('x-small');
         });
-        it('doesn\'t do nothing (not raise error) if undefined or null passed as argument', function() {
+        it('does nothing (not raise error) if undefined or null passed as argument', function() {
           instance.css();
           return expect(1).toBe(1);
         });
