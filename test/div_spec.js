@@ -129,15 +129,38 @@
           return expect(instance.getLum()).toBe(28);
         });
       });
+      describe('set method', function() {
+        return it('returns instance itself', function() {
+          expect(instance.setX(0)).toBe(instance);
+          expect(instance.setY(0)).toBe(instance);
+          expect(instance.setScale(0)).toBe(instance);
+          expect(instance.setRot(0)).toBe(instance);
+          expect(instance.setHue(0)).toBe(instance);
+          expect(instance.setSat(0)).toBe(instance);
+          return expect(instance.setLum(0)).toBe(instance);
+        });
+      });
+      describe('add method', function() {
+        return it('returns instance itself', function() {
+          expect(instance.addX(0)).toBe(instance);
+          expect(instance.addY(0)).toBe(instance);
+          expect(instance.addScale(0)).toBe(instance);
+          expect(instance.addRot(0)).toBe(instance);
+          expect(instance.addHue(0)).toBe(instance);
+          expect(instance.addSat(0)).toBe(instance);
+          return expect(instance.addLum(0)).toBe(instance);
+        });
+      });
       describe('instance.commit() makes', function() {
         describe('instance.dom.style.webkitTransform', function() {
-          return it('is "translate(45px, 99px) rotate(200deg) scale(0.97)"', function() {
-            instance.commit();
+          return it('is "translate({x}px, {y}px) rotate({rot}deg) scale({scale/100})" according to current x, y, rot and scale', function() {
+            instance.setX(45).setY(99).setRot(200).setScale(97).commit();
             return expect(instance.dom.style.webkitTransform).toBe('translate(45px, 99px) rotate(200deg) scale(0.97)');
           });
         });
         return describe('instance.dom.style.backgroundColor', function() {
-          return it('is "rgb(126, 107, 17)"', function() {
+          return it('is "rgb(R, G, B)" according to current hue, sat and lum', function() {
+            instance.setHue(50).setSat(76).setLum(28).commit();
             return expect(instance.dom.style.backgroundColor).toBe('rgb(126, 107, 17)');
           });
         });
