@@ -35,7 +35,7 @@ this.div = (function (window) {
 
         this.prevMet = {};
 
-        copyObject(this.met, this.prevMet);
+        copyProps(this.met, this.prevMet);
 
         this.css(styles);
     };
@@ -55,7 +55,7 @@ this.div = (function (window) {
         dom.style.webkitTransform = exports.webkitTransform(met);
     };
 
-    var copyObject = function (src, dest) {
+    var copyProps = function (src, dest) {
         Object.keys(src).forEach(function (key) {
             dest[key] = src[key];
         });
@@ -124,7 +124,7 @@ this.div = (function (window) {
     pt.getLum = methodGet('lum');
 
     pt.commit = function () {
-        copyObject(this.met, this.prevMet);
+        copyProps(this.met, this.prevMet);
         reflectToDom(this.dom, this.met);
 
         return this;
