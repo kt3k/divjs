@@ -22,7 +22,6 @@ this.div = (function (window) {
     var div = function (styles) {
         var dom = window.document.createElement('div');
 
-
         this.dom = dom;
         this.met = {
             x: exports.x,
@@ -42,14 +41,6 @@ this.div = (function (window) {
     };
 
     var pt = div.prototype;
-
-    pt.css = function (styles) {
-        Object.keys(styles || {}).forEach(function (key) {
-            this.dom.style[key] = styles[key];
-        }, this);
-
-        return this;
-    };
 
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
@@ -135,6 +126,14 @@ this.div = (function (window) {
     pt.commit = function () {
         copyObject(this.met, this.prevMet);
         reflectToDom(this.dom, this.met);
+
+        return this;
+    };
+
+    pt.css = function (styles) {
+        Object.keys(styles || {}).forEach(function (key) {
+            this.dom.style[key] = styles[key];
+        }, this);
 
         return this;
     };
