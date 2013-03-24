@@ -176,14 +176,14 @@ describe 'div', ->
       it 'returns instance itself', ->
         expect(instance.css()).toBe instance
 
-    describe 'instance.appendTo(dom)', ->
+    describe 'instance.appendTo(parent)', ->
 
       afterEach ->
         parent = instance.dom.parentElement
         if parent
           parent.removeChild(instance.dom)
 
-      it 'append instance.dom to parent', ->
+      it 'appends instance.dom to parent', ->
         instance.appendTo(document.body)
         expect(instance.dom.parentElement).toBe document.body
 

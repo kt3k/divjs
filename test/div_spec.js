@@ -183,7 +183,7 @@
           return expect(instance.css()).toBe(instance);
         });
       });
-      return describe('instance.appendTo(dom)', function() {
+      return describe('instance.appendTo(parent)', function() {
         afterEach(function() {
           var parent;
           parent = instance.dom.parentElement;
@@ -191,7 +191,7 @@
             return parent.removeChild(instance.dom);
           }
         });
-        it('append instance.dom to parent', function() {
+        it('appends instance.dom to parent', function() {
           instance.appendTo(document.body);
           return expect(instance.dom.parentElement).toBe(document.body);
         });
