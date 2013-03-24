@@ -168,7 +168,7 @@
           });
         });
       });
-      return describe('instance.css(style)', function() {
+      describe('instance.css(style)', function() {
         it('sets arbitrary style to instance.dom', function() {
           instance.css({
             fontSize: 'x-small'
@@ -181,6 +181,22 @@
         });
         return it('returns instance itself', function() {
           return expect(instance.css()).toBe(instance);
+        });
+      });
+      return describe('instance.appendTo(dom)', function() {
+        afterEach(function() {
+          var parent;
+          parent = instance.dom.parentElement;
+          if (parent) {
+            return parent.removeChild(instance.dom);
+          }
+        });
+        it('append instance.dom to parent', function() {
+          instance.appendTo(document.body);
+          return expect(instance.dom.parentElement).toBe(document.body);
+        });
+        return it('returns instance itself', function() {
+          return expect(instance.appendTo(document.body)).toBe(instance);
         });
       });
     });

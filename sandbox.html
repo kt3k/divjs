@@ -1,0 +1,25 @@
+<html>
+<title>div.js sandbox</title>
+<script type="text/javascript" src="div.js"></script>
+<script type="text/javascript">
+var init = function () {
+    window.d = window.div()
+      .css({
+        width: '200px',
+        height: '200px',
+      })
+      .setSat(45)
+      .setLum(50)
+      .commit()
+      .appendTo(document.body);
+}
+
+window.onload = init;
+</script>
+<style>
+body {
+    padding: 50px;
+}
+</style>
+<body></body>
+</html>

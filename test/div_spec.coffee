@@ -176,6 +176,19 @@ describe 'div', ->
       it 'returns instance itself', ->
         expect(instance.css()).toBe instance
 
+    describe 'instance.appendTo(dom)', ->
+
+      afterEach ->
+        parent = instance.dom.parentElement
+        if parent
+          parent.removeChild(instance.dom)
+
+      it 'append instance.dom to parent', ->
+        instance.appendTo(document.body)
+        expect(instance.dom.parentElement).toBe document.body
+
+      it 'returns instance itself', ->
+        expect(instance.appendTo(document.body)).toBe instance
 
   describe 'div.webkitTransform', ->
     it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->

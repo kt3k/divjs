@@ -139,6 +139,11 @@ this.div = (function (window) {
         return this;
     };
 
+    pt.appendTo = function (parent) {
+        parent.appendChild(this.dom);
+        return this;
+    };
+
     pt.getDiff = function () {
         return getDiff(this.met, this.prevMet);
     };
