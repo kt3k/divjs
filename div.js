@@ -20,9 +20,9 @@ this.div = (function (window) {
     'use strict';
 
     var div = function (styles) {
-        var dom = window.document.createElement('div');
 
-        this.dom = dom;
+        this.dom = window.document.createElement('div');
+
         this.met = {
             x: exports.x,
             y: exports.y,
@@ -32,6 +32,7 @@ this.div = (function (window) {
             sat: exports.sat,
             lum: exports.lum
         };
+        this.nextStyles = {};
 
         this.prevMet = {};
 
@@ -125,15 +126,18 @@ this.div = (function (window) {
 
     pt.commit = function () {
         copyProps(this.met, this.prevMet);
+
         reflectToDom(this.dom, this.met);
+
+        copyProps(this.nextStyles, this.dom.style);
 
         return this;
     };
 
     pt.css = function (styles) {
-        Object.keys(styles || {}).forEach(function (key) {
-            this.dom.style[key] = styles[key];
-        }, this);
+        if (styles != null) {
+            copyProps(styles || {}, this.nextStyles);
+        }
 
         return this;
     };

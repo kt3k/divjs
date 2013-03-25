@@ -165,8 +165,9 @@ describe 'div', ->
           expect(instance.dom.style.backgroundColor).toBe 'rgb(126, 107, 17)'
 
     describe 'instance.css(style)', ->
-      it 'sets arbitrary style to instance.dom', ->
+      it 'sets arbitrary style to instance.dom when commited', ->
         instance.css(fontSize: 'x-small')
+        instance.commit()
         expect(instance.dom.style.fontSize).toBe 'x-small'
 
       it 'does nothing (not raise error) if undefined or null passed as argument', ->

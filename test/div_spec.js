@@ -169,10 +169,11 @@
         });
       });
       describe('instance.css(style)', function() {
-        it('sets arbitrary style to instance.dom', function() {
+        it('sets arbitrary style to instance.dom when commited', function() {
           instance.css({
             fontSize: 'x-small'
           });
+          instance.commit();
           return expect(instance.dom.style.fontSize).toBe('x-small');
         });
         it('does nothing (not raise error) if undefined or null passed as argument', function() {
