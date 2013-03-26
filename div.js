@@ -33,6 +33,7 @@ this.div = (function (window) {
             lum: exports.lum
         };
         this.nextStyles = {};
+        this.transitionStack = [];
 
         this.prevMet = {};
 
@@ -150,6 +151,8 @@ this.div = (function (window) {
     pt.getDiff = function () {
         return getDiff(this.met, this.prevMet);
     };
+
+    pt.transition = function () {};
 
     var exports = function (styles) {
         return new div(styles);
