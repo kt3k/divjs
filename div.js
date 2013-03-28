@@ -33,7 +33,8 @@ this.div = (function (window) {
             lum: exports.lum
         };
         this.nextStyles = {};
-        this.transitionStack = [];
+        this.transitionQueue = [];
+        this.delayOffset = 0;
 
         this.prevMet = {};
 
@@ -126,11 +127,18 @@ this.div = (function (window) {
     pt.getLum = methodGet('lum');
 
     pt.commit = function () {
+        if (!this.transitionQueueEmpty()) {
+            this.transitionCommit();
+            return this;
+        }
+
         copyProps(this.met, this.prevMet);
 
         reflectToDom(this.dom, this.met);
 
         copyProps(this.nextStyles, this.dom.style);
+
+        this.nextStyle = {};
 
         return this;
     };
@@ -152,7 +160,58 @@ this.div = (function (window) {
         return getDiff(this.met, this.prevMet);
     };
 
-    pt.transition = function () {};
+    pt.transition = function (args) {
+        args || (args = {});
+        var newMet = {};
+        copyProps(this.met, newMet);
+
+        var newStyle = {};
+
+        var transition = {
+            duration: args.duration || 500,
+            delay: args.delay || 0,
+            met: newMet,
+            styles: newStyle
+        };
+
+        this.transitionQueue.push(transition);
+
+        return this;
+    };
+
+    pt.transitionQueueEmpty = function () {
+        return this.transitionQueue.length === 0;
+    };
+
+    pt.transitionCommit = function () {
+        var transition = this.transitionQueue.shift();
+        this.dom.style.webkitTransitionDuration = transition.duration + 'ms';
+
+        var that = this;
+        window.setTimeout(function () {
+            that.commit();
+        }, transition.delay + this.delayOffset);
+
+        this.delayOffset += transition.delay + transition.duration;
+
+        return this;
+    };
+
+    pt.duration = function (duration) {
+        if (!this.transitionQueueEmpty()) {
+            this.transitionQueue[0].duration = duration;
+        }
+
+        return this;
+    };
+
+    pt.delay = function (delay) {
+        if (!this.transitionQueueEmpty()) {
+            this.transitionQueue[0].delay = delay;
+        }
+
+        return this;
+    };
 
     var exports = function (styles) {
         return new div(styles);

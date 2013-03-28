@@ -11,7 +11,16 @@ var init = function () {
       .setSat(45)
       .setLum(50)
       .commit()
-      .appendTo(document.body);
+      .appendTo(document.body)
+      .transition()
+      .duration(2000)
+      .delay(2000)
+      .setRot(90)
+      .commit()
+/*      .duration(2000)
+      .delay(500)
+      .setRot(90)
+      .commit();*/
 }
 
 window.onload = init;
