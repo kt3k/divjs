@@ -21,6 +21,14 @@ var init = function () {
       .duration(600)
       .delay(600)
       .addRot(90)
+      .transition()
+      .duration(1000)
+      .delay(500)
+      .addLum(20)
+      .transition()
+      .delay(1000)
+      .addX(100)
+      .addHue(120)
       .transitionCommit()
 }
 
