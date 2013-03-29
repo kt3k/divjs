@@ -34,7 +34,6 @@ this.div = (function (window) {
         };
         this.nextStyles = {};
         this.transitionQueue = [];
-        this.delayOffset = 0;
 
         this.prevMet = {};
 
@@ -126,10 +125,12 @@ this.div = (function (window) {
     pt.setLum = methodSet('lum');
     pt.getLum = methodGet('lum');
 
-    pt.commit = function () {
-        if (!this.transitionQueueEmpty()) {
-            this.transitionCommit();
-            return this;
+    pt.commit = function (met, styles) {
+        if (met) {
+            this.met = met;
+        }
+        if (styles) {
+            this.nextStyles = styles;
         }
 
         copyProps(this.met, this.prevMet);
@@ -174,6 +175,9 @@ this.div = (function (window) {
             styles: newStyle
         };
 
+        this.met = newMet;
+        this.nextStyles = newStyle;
+
         this.transitionQueue.push(transition);
 
         return this;
@@ -184,22 +188,28 @@ this.div = (function (window) {
     };
 
     pt.transitionCommit = function () {
+        if (this.transitionQueueEmpty()) {
+            return;
+        }
+
         var transition = this.transitionQueue.shift();
         this.dom.style.webkitTransitionDuration = transition.duration + 'ms';
 
         var that = this;
         window.setTimeout(function () {
-            that.commit();
-        }, transition.delay + this.delayOffset);
+            that.commit(transition.met, transition.styles);
+        }, transition.delay);
 
-        this.delayOffset += transition.delay + transition.duration;
+        window.setTimeout(function () {
+            that.transitionCommit();
+        }, transition.delay + transition.duration);
 
         return this;
     };
 
     pt.duration = function (duration) {
         if (!this.transitionQueueEmpty()) {
-            this.transitionQueue[0].duration = duration;
+            this.transitionQueueLastEntry().duration = duration;
         }
 
         return this;
@@ -207,11 +217,15 @@ this.div = (function (window) {
 
     pt.delay = function (delay) {
         if (!this.transitionQueueEmpty()) {
-            this.transitionQueue[0].delay = delay;
+            this.transitionQueueLastEntry().delay = delay;
         }
 
         return this;
     };
+
+    pt.transitionQueueLastEntry = function () {
+        return this.transitionQueue[this.transitionQueue.length - 1];
+    }
 
     var exports = function (styles) {
         return new div(styles);

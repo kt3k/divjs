@@ -12,15 +12,16 @@ var init = function () {
       .setLum(50)
       .commit()
       .appendTo(document.body)
-      .transition()
-      .duration(2000)
-      .delay(2000)
-      .setRot(90)
       .commit()
-/*      .duration(2000)
+      .transition()
+      .duration(500)
       .delay(500)
-      .setRot(90)
-      .commit();*/
+      .addRot(90)
+      .transition()
+      .duration(600)
+      .delay(600)
+      .addRot(90)
+      .transitionCommit()
 }
 
 window.onload = init;
