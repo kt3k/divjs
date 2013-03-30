@@ -1,0 +1,97 @@
+<html>
+<title>div.js sandbox</title>
+<script type="text/javascript" src="div.js"></script>
+<script type="text/javascript">
+var init = function () {
+    var DUR = 300;
+    var DLY = 100;
+    window.d = window.div()
+      .css({
+        position: 'fixed',
+        width: '50px',
+        height: '50px',
+        opacity: 0.0,
+      })
+      .setSat(45)
+      .setLum(50)
+      .setX(Math.floor(Math.random() * 400))
+      .setY(Math.floor(Math.random() * 400))
+      .appendTo(document.body)
+      .commit()
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addRot(90)
+      .css({opacity: 1})
+      .transition()
+      .delay(300)
+      .addRot(90)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addLum(20)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addX(100)
+      .addHue(120)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addX(100)
+      .addHue(120)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addX(-200)
+      .addHue(120)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addRot(90)
+      .addScale(30)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addRot(-90)
+      .addScale(-30)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addX(200)
+      .addY(200)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addRot(180)
+      .addHue(60)
+      .addScale(100)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addRot(-180)
+      .addHue(120)
+      .addScale(-100)
+    .transition()
+      .duration(DUR)
+      .delay(DLY)
+      .addX(-200)
+      .addY(-200)
+      .addHue(-180)
+      .addLum(-20)
+    .transitionCommit()
+}
+
+for (var i = 0; i < 50; i++) {
+    setTimeout(init, Math.random() * 5000);
+}
+
+window.onload = init;
+</script>
+<style>
+body {
+    padding: 50px;
+}
+</style>
+<body></body>
+</html>
