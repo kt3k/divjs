@@ -1,16 +1,40 @@
 div.js
 ======
 
-*div.js* is an abstraction of the manipulation of style.webkitTransform and style.backgroundColor of `div` elements.
+*div.js* is abstraction of div manipulation.
 
-It is a basic component of *Rectangular Programming* on browsers.
+It employs method chaining pattern for object modification.
 
 Usage
 -----
 
+load script and `div` object created globally:
+
 ```html
 <script type="text/javascript" src="path/to/div.js"></script>
 ```
+
+basic usage:
+
+```javascript
+var rect = div()
+    .css({
+      position: 'absolute',
+      left: '0px',
+      top: '0px',
+      width: '100px',
+      height: '100px',
+    })
+    .setX(100)
+    .setY(100)
+    .setHue(60)
+    .setSat(50)
+    .setLum(50)
+    .appendTo(docment.body)
+    .commit()
+```
+
+transitions:
 
 ```javascript
 var rect = div()
