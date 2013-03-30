@@ -13,20 +13,31 @@ Usage
 ```
 
 ```javascript
-var rect = div({
-  position: 'absolute',
-  left: '0px',
-  top: '0px',
-  width: '100px',
-  height: '100px',
-  webkitTransitionDuration: '500ms'
-});
-
-rect.setX(100);
-rect.setY(100);
-rect.setHue(60);
-rect.setSat(50);
-rect.setLum(50);
-
-rect.commit();
+var rect = div()
+    .css({
+      position: 'absolute',
+      left: '0px',
+      top: '0px',
+      width: '100px',
+      height: '100px',
+    })
+    .setX(100)
+    .setY(100)
+    .setHue(60)
+    .setSat(50)
+    .setLum(50)
+  .transition()
+  .duration(500)
+  .delay(500)
+    .addX(100)
+    .addY(200)
+  .transition()
+  .duration(200)
+  .delay(300)
+    .addHue(60)
+  .transition()
+    .addLum(-30)
+  .transition()
+    .addSat(-40)
+  .transitionCommit();
 ```
