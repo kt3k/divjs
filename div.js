@@ -225,7 +225,7 @@ this.div = (function (window) {
 
     pt.transitionQueueLastEntry = function () {
         return this.transitionQueue[this.transitionQueue.length - 1];
-    }
+    };
 
     var exports = function (styles) {
         return new div(styles);
