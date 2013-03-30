@@ -146,7 +146,7 @@ this.div = (function (window) {
 
     pt.css = function (styles) {
         if (styles != null) {
-            copyProps(styles || {}, this.nextStyles);
+            copyProps(styles, this.nextStyles);
         }
 
         return this;
