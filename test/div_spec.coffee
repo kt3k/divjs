@@ -210,6 +210,21 @@ describe 'div', ->
       it 'returns instance itself', ->
         expect(instance.appendTo(document.body)).toBe instance
 
+    describe 'instacne.remove()', ->
+
+      it 'removes it\'s dom from parent element if it exists', ->
+
+        instance.appendTo(document.body)
+        instance.remove()
+
+        expect(instance.dom.parentElement).toBe null
+
+      it 'returns instance itself', ->
+
+        instance.appendTo(document.body)
+
+        expect(instance.remove()).toBe instance
+
     describe 'instance.transition()', ->
       it 'returns instance itself', ->
         done = 0

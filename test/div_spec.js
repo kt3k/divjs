@@ -219,6 +219,17 @@
           return expect(instance.appendTo(document.body)).toBe(instance);
         });
       });
+      describe('instacne.remove()', function() {
+        it('removes it\'s dom from parent element if it exists', function() {
+          instance.appendTo(document.body);
+          instance.remove();
+          return expect(instance.dom.parentElement).toBe(null);
+        });
+        return it('returns instance itself', function() {
+          instance.appendTo(document.body);
+          return expect(instance.remove()).toBe(instance);
+        });
+      });
       return describe('instance.transition()', function() {
         it('returns instance itself', function() {
           var done;

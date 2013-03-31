@@ -157,6 +157,14 @@ this.div = (function (window) {
         return this;
     };
 
+    pt.remove = function () {
+        if (this.dom.parentElement) {
+            this.dom.parentElement.removeChild(this.dom);
+        }
+
+        return this;
+    };
+
     pt.getDiff = function () {
         return getDiff(this.met, this.prevMet);
     };
