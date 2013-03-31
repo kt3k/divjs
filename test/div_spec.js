@@ -24,10 +24,12 @@
         });
         it('is 30 when instance.addX(30)', function() {
           instance.addX(30);
+          instance.commit();
           return expect(instance.getX()).toBe(30);
         });
         return it('is 45 when it.setX(45)', function() {
           instance.setX(45);
+          instance.commit();
           return expect(instance.getX()).toBe(45);
         });
       });
@@ -37,14 +39,17 @@
         });
         it('is 37 when instance.addY(37)', function() {
           instance.addY(37);
+          instance.commit();
           return expect(instance.getY()).toBe(37);
         });
         it('is 91 when instance.setY(91)', function() {
           instance.setY(91);
+          instance.commit();
           return expect(instance.getY()).toBe(91);
         });
         return it('then is 99 when instance.addY(8)', function() {
           instance.addY(8);
+          instance.commit();
           return expect(instance.getY()).toBe(99);
         });
       });
@@ -54,14 +59,17 @@
         });
         it('is 77 when instance.setScale(77)', function() {
           instance.setScale(77);
+          instance.commit();
           return expect(instance.getScale()).toBe(77);
         });
         it('is 89 when instance.addScale(12)', function() {
           instance.addScale(12);
+          instance.commit();
           return expect(instance.getScale()).toBe(89);
         });
         return it('is 97 when instance.setScale(97)', function() {
           instance.setScale(97);
+          instance.commit();
           return expect(instance.getScale()).toBe(97);
         });
       });
@@ -71,10 +79,12 @@
         });
         it('is 100 when instance.setRot(100)', function() {
           instance.setRot(100);
+          instance.commit();
           return expect(instance.getRot()).toBe(100);
         });
         return it('is 200 when instnace.addRot(100)', function() {
           instance.addRot(100);
+          instance.commit();
           return expect(instance.getRot()).toBe(200);
         });
       });
@@ -84,14 +94,17 @@
         });
         it('is 25 when instance.setHue(25)', function() {
           instance.setHue(25);
+          instance.commit();
           return expect(instance.getHue()).toBe(25);
         });
         it('is 75 when instance.addHue(50)', function() {
           instance.addHue(50);
+          instance.commit();
           return expect(instance.getHue()).toBe(75);
         });
         return it('is 50 when instance.addHue(-25)', function() {
           instance.addHue(-25);
+          instance.commit();
           return expect(instance.getHue()).toBe(50);
         });
       });
@@ -101,14 +114,17 @@
         });
         it('is 88 when instance.setSat(88)', function() {
           instance.setSat(88);
+          instance.commit();
           return expect(instance.getSat()).toBe(88);
         });
         it('is 95 when instance.addSat(7)', function() {
           instance.addSat(7);
+          instance.commit();
           return expect(instance.getSat()).toBe(95);
         });
         return it('is 76 when instance.addSat(-19)', function() {
           instance.addSat(-19);
+          instance.commit();
           return expect(instance.getSat()).toBe(76);
         });
       });
@@ -118,14 +134,17 @@
         });
         it('is 87 when instance.setLum(87)', function() {
           instance.setLum(87);
+          instance.commit();
           return expect(instance.getLum()).toBe(87);
         });
         it('is 97 when instance.addLum(10)', function() {
           instance.addLum(10);
+          instance.commit();
           return expect(instance.getLum()).toBe(97);
         });
         return it('is 28 when instance.addLum(-69)', function() {
           instance.addLum(-69);
+          instance.commit();
           return expect(instance.getLum()).toBe(28);
         });
       });
@@ -184,7 +203,7 @@
           return expect(instance.css()).toBe(instance);
         });
       });
-      return describe('instance.appendTo(parent)', function() {
+      describe('instance.appendTo(parent)', function() {
         afterEach(function() {
           var parent;
           parent = instance.dom.parentElement;
@@ -198,6 +217,66 @@
         });
         return it('returns instance itself', function() {
           return expect(instance.appendTo(document.body)).toBe(instance);
+        });
+      });
+      return describe('instance.transition()', function() {
+        it('returns instance itself', function() {
+          var done;
+          done = 0;
+          expect(instance.transition()).toBe(instance);
+          instance.transitionCommit();
+          setTimeout(function() {
+            return done = 1;
+          }, 501);
+          return waitsFor(function() {
+            return done;
+          });
+        });
+        describe('transition().setRot(900)', function() {
+          return it('set met.rot 900 after (epsilon)ms', function() {
+            var done;
+            done = 0;
+            instance.setRot(0).commit().transition().setRot(900).transitionCommit();
+            expect(instance.getRot()).toBe(0);
+            setTimeout(function() {
+              expect(instance.getRot()).toBe(900);
+              return done = 1;
+            });
+            return waitsFor(function() {
+              return done;
+            });
+          });
+        });
+        describe('transition().delay(500).setRot(700)', function() {
+          return it('set met.rot 700 after 500ms', function() {
+            var done;
+            done = 0;
+            instance.setRot(0).commit().transition().delay(500).setRot(700).transitionCommit();
+            setTimeout(function() {
+              return expect(instance.getRot()).toBe(0);
+            }, 499);
+            setTimeout(function() {
+              expect(instance.getRot()).toBe(700);
+              return done = 1;
+            }, 501);
+            return waitsFor(function() {
+              return done;
+            });
+          });
+        });
+        return describe('transition().duration(200)', function() {
+          return it('set instance.dom.style.webkitTransitionDuration 200ms after (epsilon)ms', function() {
+            var done;
+            done = 0;
+            instance.setRot(0).commit().transition().duration(200).transitionCommit();
+            setTimeout(function() {
+              expect(instance.dom.style.webkitTransitionDuration).toBe('200ms');
+              return done = 1;
+            });
+            return waitsFor(function() {
+              return done;
+            });
+          });
         });
       });
     });

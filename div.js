@@ -94,7 +94,7 @@ this.div = (function (window) {
     });
 
     var methodGet = method(function (key) {
-        return this.met[key];
+        return this.prevMet[key];
     });
 
     pt.addX = methodAdd('x');

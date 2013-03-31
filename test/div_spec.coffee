@@ -24,10 +24,12 @@ describe 'div', ->
 
       it 'is 30 when instance.addX(30)', ->
         instance.addX 30
+        instance.commit()
         expect(instance.getX()).toBe 30
 
       it 'is 45 when it.setX(45)', ->
         instance.setX 45
+        instance.commit()
         expect(instance.getX()).toBe 45
 
     describe 'instance.getY()', ->
@@ -36,14 +38,17 @@ describe 'div', ->
 
       it 'is 37 when instance.addY(37)', ->
         instance.addY 37
+        instance.commit()
         expect(instance.getY()).toBe 37
 
       it 'is 91 when instance.setY(91)', ->
         instance.setY 91
+        instance.commit()
         expect(instance.getY()).toBe 91
 
       it 'then is 99 when instance.addY(8)', ->
         instance.addY 8
+        instance.commit()
         expect(instance.getY()).toBe 99
 
     describe 'instance.getScale()', ->
@@ -52,14 +57,17 @@ describe 'div', ->
 
       it 'is 77 when instance.setScale(77)', ->
         instance.setScale 77
+        instance.commit()
         expect(instance.getScale()).toBe 77
 
       it 'is 89 when instance.addScale(12)', ->
         instance.addScale 12
+        instance.commit()
         expect(instance.getScale()).toBe 89
 
       it 'is 97 when instance.setScale(97)', ->
         instance.setScale 97
+        instance.commit()
         expect(instance.getScale()).toBe 97
 
     describe 'instance.getRot()', ->
@@ -68,10 +76,12 @@ describe 'div', ->
 
       it 'is 100 when instance.setRot(100)', ->
         instance.setRot 100
+        instance.commit()
         expect(instance.getRot()).toBe 100
 
       it 'is 200 when instnace.addRot(100)', ->
         instance.addRot 100
+        instance.commit()
         expect(instance.getRot()).toBe 200
 
     describe 'instance.getHue()', ->
@@ -80,14 +90,17 @@ describe 'div', ->
 
       it 'is 25 when instance.setHue(25)', ->
         instance.setHue 25
+        instance.commit()
         expect(instance.getHue()).toBe 25
 
       it 'is 75 when instance.addHue(50)', ->
         instance.addHue 50
+        instance.commit()
         expect(instance.getHue()).toBe 75
 
       it 'is 50 when instance.addHue(-25)', ->
         instance.addHue -25
+        instance.commit()
         expect(instance.getHue()).toBe 50
 
     describe 'instance.getSat()', ->
@@ -96,14 +109,17 @@ describe 'div', ->
 
       it 'is 88 when instance.setSat(88)', ->
         instance.setSat 88
+        instance.commit()
         expect(instance.getSat()).toBe 88
 
       it 'is 95 when instance.addSat(7)', ->
         instance.addSat 7
+        instance.commit()
         expect(instance.getSat()).toBe 95
 
       it 'is 76 when instance.addSat(-19)', ->
         instance.addSat -19
+        instance.commit()
         expect(instance.getSat()).toBe 76
 
     describe 'instance.getLum()', ->
@@ -112,14 +128,17 @@ describe 'div', ->
 
       it 'is 87 when instance.setLum(87)', ->
         instance.setLum 87
+        instance.commit()
         expect(instance.getLum()).toBe 87
 
       it 'is 97 when instance.addLum(10)', ->
         instance.addLum 10
+        instance.commit()
         expect(instance.getLum()).toBe 97
 
       it 'is 28 when instance.addLum(-69)', ->
         instance.addLum -69
+        instance.commit()
         expect(instance.getLum()).toBe 28
 
     describe 'set method', ->
@@ -190,6 +209,63 @@ describe 'div', ->
 
       it 'returns instance itself', ->
         expect(instance.appendTo(document.body)).toBe instance
+
+    describe 'instance.transition()', ->
+      it 'returns instance itself', ->
+        done = 0
+        expect(instance.transition()).toBe instance
+
+        instance.transitionCommit()
+
+        setTimeout ->
+          done = 1
+        , 501
+
+        waitsFor -> done
+
+      describe 'transition().setRot(900)', ->
+
+        it 'set met.rot 900 after (epsilon)ms', ->
+          done = 0
+          instance.setRot(0).commit().transition().setRot(900).transitionCommit()
+
+          expect(instance.getRot()).toBe 0
+
+          setTimeout ->
+            expect(instance.getRot()).toBe 900
+            done = 1
+
+          waitsFor -> done
+
+      describe 'transition().delay(500).setRot(700)', ->
+
+        it 'set met.rot 700 after 500ms', ->
+          done = 0
+          instance.setRot(0).commit().transition().delay(500).setRot(700).transitionCommit()
+
+          setTimeout ->
+            expect(instance.getRot()).toBe 0
+          , 499
+
+          setTimeout ->
+            expect(instance.getRot()).toBe 700
+            done = 1
+          , 501
+
+          waitsFor -> done
+
+      describe 'transition().duration(200)', ->
+
+        it 'set instance.dom.style.webkitTransitionDuration 200ms after (epsilon)ms', ->
+
+          done = 0
+          instance.setRot(0).commit().transition().duration(200).transitionCommit()
+
+          setTimeout ->
+            expect(instance.dom.style.webkitTransitionDuration).toBe '200ms'
+            done = 1
+
+          waitsFor -> done
 
   describe 'div.webkitTransform', ->
     it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->
