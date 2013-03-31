@@ -44,6 +44,12 @@ this.div = (function (window) {
 
     var pt = div.prototype;
 
+    var callIfFunction = function (func, obj, args) {
+        if (typeof func === 'function') {
+            func.apply(obj, args);
+        }
+    };
+
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
         reflectBackgroundColorToDom(dom, met);
@@ -154,6 +160,7 @@ this.div = (function (window) {
 
     pt.appendTo = function (parent) {
         parent.appendChild(this.dom);
+
         return this;
     };
 
@@ -180,7 +187,8 @@ this.div = (function (window) {
             duration: args.duration || 500,
             delay: args.delay || 0,
             met: newMet,
-            styles: newStyle
+            styles: newStyle,
+            callbacks: []
         };
 
         this.met = newMet;
@@ -210,6 +218,10 @@ this.div = (function (window) {
 
         window.setTimeout(function () {
             that.transitionCommit();
+
+            transition.callbacks.forEach(function (callback) {
+                callIfFunction(callback);
+            });
         }, transition.delay + transition.duration);
 
         return this;
@@ -226,6 +238,14 @@ this.div = (function (window) {
     pt.delay = function (delay) {
         if (!this.transitionQueueEmpty()) {
             this.transitionQueueLastEntry().delay = delay;
+        }
+
+        return this;
+    };
+
+    pt.callback = function (callback) {
+        if (!this.transitionQueueEmpty()) {
+            this.transitionQueueLastEntry().callbacks.push(callback);
         }
 
         return this;

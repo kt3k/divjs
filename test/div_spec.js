@@ -275,7 +275,7 @@
             });
           });
         });
-        return describe('transition().duration(200)', function() {
+        describe('transition().duration(200)', function() {
           return it('set instance.dom.style.webkitTransitionDuration 200ms after (epsilon)ms', function() {
             var done;
             done = 0;
@@ -284,6 +284,28 @@
               expect(instance.dom.style.webkitTransitionDuration).toBe('200ms');
               return done = 1;
             });
+            return waitsFor(function() {
+              return done;
+            });
+          });
+        });
+        return describe('transition().callback(func)', function() {
+          return it('fires func after (delay + durartion) ms', function() {
+            var called, done;
+            done = 0;
+            called = false;
+            instance.transition().duration(100).delay(100).callback(function() {
+              return called = true;
+            }).transitionCommit();
+            setTimeout(function() {
+              return expect(called).toBe(false);
+            }, 199);
+            setTimeout(function() {
+              return expect(called).toBe(true);
+            }, 201);
+            setTimeout(function() {
+              return done = 1;
+            }, 250);
             return waitsFor(function() {
               return done;
             });

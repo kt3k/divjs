@@ -282,6 +282,30 @@ describe 'div', ->
 
           waitsFor -> done
 
+      describe 'transition().callback(func)', ->
+
+        it 'fires func after (delay + durartion) ms', ->
+
+          done = 0
+          called = false
+
+          instance.transition().duration(100).delay(100).callback(-> called = true).transitionCommit()
+
+          setTimeout ->
+            expect(called).toBe false
+          , 199
+
+          setTimeout ->
+            expect(called).toBe true
+          , 201
+
+          setTimeout ->
+            done = 1
+          , 250
+
+          waitsFor -> done
+
+
   describe 'div.webkitTransform', ->
     it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->
       expect(window.div.webkitTransform({x: 1, y: 2, rot: 3, scale:4})).toBe 'translate(1px,2px) rotate(3deg) scale(0.04)'
