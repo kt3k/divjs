@@ -27,14 +27,34 @@ var rect = div()
     })
     .setX(100)
     .setY(100)
-    .setHue(60)
-    .setSat(50)
-    .setLum(50)
     .appendTo(document.body)
     .commit()
 ```
 
-transitions:
+transition:
+
+```javascript
+var rect = div()
+    .css({
+      position: 'absolute',
+      left: '0px',
+      top: '0px',
+      width: '100px',
+      height: '100px',
+    })
+    .setX(100)
+    .setY(100)
+    .appendTo(document.body)
+    .commit()
+    .transition()
+    .duration(500)
+    .delay(500)
+    .addX(100)
+    .addY(200)
+    .transitionCommit();
+```
+
+multiple transitions:
 
 ```javascript
 var rect = div()
