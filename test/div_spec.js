@@ -289,7 +289,7 @@
             });
           });
         });
-        return describe('transition().callback(func)', function() {
+        describe('transition().callback(func)', function() {
           return it('fires func after (delay + durartion) ms', function() {
             var called, done;
             done = 0;
@@ -306,6 +306,33 @@
             setTimeout(function() {
               return done = 1;
             }, 250);
+            return waitsFor(function() {
+              return done;
+            });
+          });
+        });
+        return describe('instance.transition().callback(f).callback(g)', function() {
+          return it('calls f then call g after (delay + duration) ms', function() {
+            var done, fCalled, gCalled;
+            done = 0;
+            fCalled = false;
+            gCalled = false;
+            instance.transition().duration(50).delay(50).callback(function() {
+              return fCalled = true;
+            }).callback(function() {
+              return gCalled = true;
+            }).transitionCommit();
+            setTimeout(function() {
+              expect(fCalled).toBe(false);
+              return expect(gCalled).toBe(false);
+            }, 99);
+            setTimeout(function() {
+              expect(fCalled).toBe(true);
+              return expect(gCalled).toBe(true);
+            }, 101);
+            setTimeout(function() {
+              return done = 1;
+            }, 150);
             return waitsFor(function() {
               return done;
             });

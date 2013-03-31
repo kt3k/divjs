@@ -305,6 +305,35 @@ describe 'div', ->
 
           waitsFor -> done
 
+      describe 'instance.transition().callback(f).callback(g)', ->
+
+        it 'calls f then call g after (delay + duration) ms', ->
+
+          done = 0
+          fCalled = false
+          gCalled = false
+
+          instance.transition().duration(50).delay(50)
+          .callback(-> fCalled = true)
+          .callback(-> gCalled = true)
+          .transitionCommit()
+
+          setTimeout ->
+            expect(fCalled).toBe false
+            expect(gCalled).toBe false
+          , 99
+
+          setTimeout ->
+            expect(fCalled).toBe true
+            expect(gCalled).toBe true
+          , 101
+
+          setTimeout ->
+            done = 1
+          , 150
+
+          waitsFor -> done
+
 
   describe 'div.webkitTransform', ->
     it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->
