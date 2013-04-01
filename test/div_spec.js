@@ -235,10 +235,11 @@
           var done;
           done = 0;
           expect(instance.transition()).toBe(instance);
+          instance.duration(100);
           instance.transitionCommit();
           setTimeout(function() {
             return done = 1;
-          }, 501);
+          }, 101);
           return waitsFor(function() {
             return done;
           });
@@ -258,18 +259,18 @@
             });
           });
         });
-        describe('transition().delay(500).setRot(700)', function() {
-          return it('set met.rot 700 after 500ms', function() {
+        describe('transition().delay(130).setRot(700)', function() {
+          return it('set met.rot 700 after 130ms', function() {
             var done;
             done = 0;
-            instance.setRot(0).commit().transition().delay(500).setRot(700).transitionCommit();
+            instance.setRot(0).commit().transition().delay(130).setRot(700).transitionCommit();
             setTimeout(function() {
               return expect(instance.getRot()).toBe(0);
-            }, 499);
+            }, 129);
             setTimeout(function() {
               expect(instance.getRot()).toBe(700);
               return done = 1;
-            }, 501);
+            }, 131);
             return waitsFor(function() {
               return done;
             });
@@ -281,9 +282,11 @@
             done = 0;
             instance.setRot(0).commit().transition().duration(200).transitionCommit();
             setTimeout(function() {
-              expect(instance.dom.style.webkitTransitionDuration).toBe('200ms');
-              return done = 1;
+              return expect(instance.dom.style.webkitTransitionDuration).toBe('200ms');
             });
+            setTimeout(function() {
+              return done = 1;
+            }, 250);
             return waitsFor(function() {
               return done;
             });

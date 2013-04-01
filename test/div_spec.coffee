@@ -230,11 +230,13 @@ describe 'div', ->
         done = 0
         expect(instance.transition()).toBe instance
 
+        instance.duration(100)
+
         instance.transitionCommit()
 
         setTimeout ->
           done = 1
-        , 501
+        , 101
 
         waitsFor -> done
 
@@ -252,20 +254,20 @@ describe 'div', ->
 
           waitsFor -> done
 
-      describe 'transition().delay(500).setRot(700)', ->
+      describe 'transition().delay(130).setRot(700)', ->
 
-        it 'set met.rot 700 after 500ms', ->
+        it 'set met.rot 700 after 130ms', ->
           done = 0
-          instance.setRot(0).commit().transition().delay(500).setRot(700).transitionCommit()
+          instance.setRot(0).commit().transition().delay(130).setRot(700).transitionCommit()
 
           setTimeout ->
             expect(instance.getRot()).toBe 0
-          , 499
+          , 129
 
           setTimeout ->
             expect(instance.getRot()).toBe 700
             done = 1
-          , 501
+          , 131
 
           waitsFor -> done
 
@@ -278,7 +280,10 @@ describe 'div', ->
 
           setTimeout ->
             expect(instance.dom.style.webkitTransitionDuration).toBe '200ms'
+
+          setTimeout ->
             done = 1
+          , 250
 
           waitsFor -> done
 
