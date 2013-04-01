@@ -339,6 +339,29 @@ describe 'div', ->
 
           waitsFor -> done
 
+      describe 'instance.transition().delay(delay).duration(duration).remove()', ->
+
+        it 'removes instance.dom from its parent after (delay + duration) ms', ->
+
+          done = 0
+
+          instance.appendTo(document.body).commit().transition().delay(80).duration(40).remove().transitionCommit()
+
+          expect(instance.dom.parentElement).toBe document.body
+
+          setTimeout ->
+            expect(instance.dom.parentElement).toBe document.body
+          , 119
+
+          setTimeout ->
+            expect(instance.dom.parentElement).toBe null
+          , 121
+
+          setTimeout ->
+            done = 1
+          , 130
+
+          waitsFor -> done
 
   describe 'div.webkitTransform', ->
     it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->

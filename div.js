@@ -158,6 +158,23 @@ this.div = (function (window) {
         return this;
     };
 
+    var bufferable = function (func) {
+        return function () {
+            var self = this;
+            var args = arguments;
+
+            if (this.transitionQueueEmpty()) {
+                return func.apply(self, args);
+            } else {
+                this.callback(function () {
+                    return func.apply(self, args);
+                });
+
+                return this;
+            }
+        };
+    };
+
     pt.appendTo = function (parent) {
         parent.appendChild(this.dom);
 
@@ -171,6 +188,7 @@ this.div = (function (window) {
 
         return this;
     };
+    pt.remove = bufferable(pt.remove);
 
     pt.getDiff = function () {
         return getDiff(this.met, this.prevMet);

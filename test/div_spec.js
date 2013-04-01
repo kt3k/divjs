@@ -314,7 +314,7 @@
             });
           });
         });
-        return describe('instance.transition().callback(f).callback(g)', function() {
+        describe('instance.transition().callback(f).callback(g)', function() {
           return it('calls f then call g after (delay + duration) ms', function() {
             var done, fCalled, gCalled;
             done = 0;
@@ -336,6 +336,26 @@
             setTimeout(function() {
               return done = 1;
             }, 150);
+            return waitsFor(function() {
+              return done;
+            });
+          });
+        });
+        return describe('instance.transition().delay(delay).duration(duration).remove()', function() {
+          return it('removes instance.dom from its parent after (delay + duration) ms', function() {
+            var done;
+            done = 0;
+            instance.appendTo(document.body).commit().transition().delay(80).duration(40).remove().transitionCommit();
+            expect(instance.dom.parentElement).toBe(document.body);
+            setTimeout(function() {
+              return expect(instance.dom.parentElement).toBe(document.body);
+            }, 119);
+            setTimeout(function() {
+              return expect(instance.dom.parentElement).toBe(null);
+            }, 121);
+            setTimeout(function() {
+              return done = 1;
+            }, 130);
             return waitsFor(function() {
               return done;
             });
