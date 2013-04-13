@@ -34,7 +34,7 @@ window.transition = (function () {
             }
 
             return func.apply(this, arguments);
-        }
+        };
     };
 
     // decorator
@@ -62,10 +62,29 @@ window.transition = (function () {
     };
 
     transitionPrototype.transitionCommit = function () {
-        setTimeout();
+        var transition = this.queue.shift();
+
+        var self = this;
+
+        setTimeout(function () {
+            self.onStart(transition);
+        }, transition.delay);
+
+        setTimeout(function () {
+            self.onStop(transition);
+        }, transition.delay + transition.duration);
     }
     .E(ToDoNothingWhenEmpty)
     .E(Chainable);
+
+    transitionPrototype.onStart = function () {
+    };
+
+    transitionPrototype.onStop = function (transition) {
+        this.callbacks.forEach(function (func) {
+            func(transition);
+        });
+    };
 
     transitionPrototype.transition = function () {
         this.queue.push(this.createTransition());
