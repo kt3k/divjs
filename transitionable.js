@@ -34,11 +34,11 @@ window.transition = (function () {
             }
 
             func.apply(this, arguments);
-        }
+        };
     };
 
     Function.prototype.being = function (decorator) {
-        return decorate(this);
+        return decorator(this);
     };
 
     transitionPrototype.transitionCommit = function () {
@@ -54,7 +54,7 @@ window.transition = (function () {
     };
 
     transitionPrototype.tailTransition = function () {
-        return this.queue[queue.length - 1];
+        return this.queue[this.queue.length - 1];
     }
     .being(ThrowErrorWhenQueueEmpty);
 
@@ -64,7 +64,7 @@ window.transition = (function () {
     .being(ThrowErrorWhenQueueEmpty);
 
     transitionPrototype.duration = function (duration) {
-        this.tailTransition().duration = duration
+        this.tailTransition().duration = duration;
     };
 
     transitionPrototype.delay = function (delay) {
