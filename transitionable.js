@@ -19,14 +19,6 @@ window.transition = (function () {
     exports.DURATION = 500;
     exports.DELAY = 0;
 
-    var createTransition = function () {
-        return {
-            duration: exports.DURATION,
-            delay: exports.DURATION,
-            callbacks: []
-        };
-    };
-
     // decorator
     var ThrowErrorWhenQueueEmpty = function (func) {
         return function () {
@@ -51,13 +43,21 @@ window.transition = (function () {
         return decorator(this);
     };
 
+    transitionPrototype.createTransition = function () {
+        return {
+            duration: exports.DURATION,
+            delay: exports.DURATION,
+            callbacks: []
+        };
+    };
+
     transitionPrototype.transitionCommit = function () {
         setTimeout();
     }
     .E(Chainable);
 
     transitionPrototype.transition = function () {
-        this.queue.push(createTransition());
+        this.queue.push(this.createTransition());
     }
     .E(Chainable);
 
