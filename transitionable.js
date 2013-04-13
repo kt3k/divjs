@@ -16,9 +16,6 @@ window.transition = (function () {
 
     var transitionPrototype = transition.prototype = exports.prototype = {constructor: exports};
 
-    exports.DURATION = 500;
-    exports.DELAY = 0;
-
     // decorator
     var ThrowErrorWhenQueueEmpty = function (func) {
         return function () {
@@ -43,10 +40,13 @@ window.transition = (function () {
         return decorator(this);
     };
 
+    transitionPrototype.defaultDuration = 500;
+    transitionPrototype.defaultDelay = 0;
+
     transitionPrototype.createTransition = function () {
         return {
-            duration: exports.DURATION,
-            delay: exports.DURATION,
+            duration: this.defaultDuration,
+            delay: this.defaultDelay,
             callbacks: []
         };
     };
