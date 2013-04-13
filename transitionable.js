@@ -1,6 +1,6 @@
 /**
- * transible.js v0.1
- * author: Yosiya Hinosawa
+ * transition.js v0.1
+ * author: Yosiya Hinosawa ( @kt3k )
  */
 
 window.transition = (function () {
