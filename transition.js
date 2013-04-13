@@ -27,9 +27,21 @@ window.transition = (function () {
         };
     };
 
+    // decorator
     var ToDoNothingWhenEmpty = function (func) {
         return function () {
             if (this.queue.length === 0) {
+                return;
+            }
+
+            return func.apply(this, arguments);
+        };
+    };
+
+    // decorator
+    var ToDoNothingWhenLocked = function (func) {
+        return function () {
+            if (this.__locked__) {
                 return;
             }
 
@@ -43,6 +55,24 @@ window.transition = (function () {
             func.apply(this, arguments);
 
             return this;
+        };
+    };
+
+    // export decorator
+    exports.Transitionable = function (func) {
+        return function () {
+            var self = this;
+            var args = arguments;
+
+            if (!this.getTransition().transitionExists()) {
+                return func.apply(this, arguments);
+            } else {
+                this.getTransition().callback(function () {
+                    func.apply(self, args);
+                });
+
+                return this;
+            }
         };
     };
 
@@ -61,7 +91,9 @@ window.transition = (function () {
         };
     };
 
-    transitionPrototype.transitionCommit = function () {
+    transitionPrototype.commit = function () {
+        this.__lock__ = true;
+
         var transition = this.queue.shift();
 
         var self = this;
@@ -71,19 +103,25 @@ window.transition = (function () {
         }, transition.delay);
 
         setTimeout(function () {
+            self.__lock__ = false;
+
             self.onStop(transition);
+
+            self.commit();
+
+            transition.callbacks.forEach(function (func) {
+                func(transition);
+            });
         }, transition.delay + transition.duration);
     }
+    .E(ToDoNothingWhenLocked)
     .E(ToDoNothingWhenEmpty)
     .E(Chainable);
 
     transitionPrototype.onStart = function () {
     };
 
-    transitionPrototype.onStop = function (transition) {
-        this.callbacks.forEach(function (func) {
-            func(transition);
-        });
+    transitionPrototype.onStop = function () {
     };
 
     transitionPrototype.transition = function () {
