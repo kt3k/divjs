@@ -237,13 +237,15 @@ this.div = (function (window) {
     }
     .E(Chainable);
 
-    // transition delegations
+    // transition delegation
     divPrototype.onTransitionStart = function (transition) {
         this.commit(transition.met, transition.styles);
     };
 
+    // transition delegation
     divPrototype.onTransitionStop = function () {};
 
+    // transition delegation
     divPrototype.onTransitionBeforeStart = function (transition) {
         this.dom.style.webkitTransitionDuration = transition.duration + 'ms';
     };
@@ -262,6 +264,8 @@ this.div = (function (window) {
         this.getTransition().callback(callback);
     }
     .E(Chainable);
+
+    delete Function.prototype.E;
 
     return exports;
 }(this));
