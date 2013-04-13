@@ -38,6 +38,22 @@ window.transition = (function () {
         return this.queue.length > 0;
     };
 
+    transitionPrototype.tailTransition = function () {
+        if (this.queue.length === 0) {
+            throw Error('transition queue is empty.');
+        }
+
+        return this.queue[queue.length - 1];
+    };
+
+    transitionPrototype.headTransition = function () {
+        if (this.queue.length === 0) {
+            throw Error('transition queue is empty.');
+        }
+
+        return this.queue[0];
+    };
+
     transitionPrototype.duration = function (duration) {
         //TODO: this.tailTransition();
     };
