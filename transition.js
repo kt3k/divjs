@@ -27,6 +27,16 @@ window.transition = (function () {
         };
     };
 
+    var ToDoNothingWhenEmpty = function (func) {
+        return function () {
+            if (this.queue.length === 0) {
+                return;
+            }
+
+            return func.apply(this, arguments);
+        }
+    };
+
     // decorator
     var Chainable = function (func) {
         return function () {
@@ -54,6 +64,7 @@ window.transition = (function () {
     transitionPrototype.transitionCommit = function () {
         setTimeout();
     }
+    .E(ToDoNothingWhenEmpty)
     .E(Chainable);
 
     transitionPrototype.transition = function () {
