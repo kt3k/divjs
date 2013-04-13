@@ -26,6 +26,20 @@ window.transition = (function () {
         };
     };
 
+    var ThrowErrorWhenQueueEmpty = function (func) {
+        return function () {
+            if (this.queue.length === 0) {
+                throw Error('transition queue is empty.');
+            }
+
+            func.apply(this, arguments);
+        }
+    };
+
+    Function.prototype.being = function (decorator) {
+        return decorate(this);
+    };
+
     transitionPrototype.transitionCommit = function () {
         setTimeout();
     };
@@ -39,26 +53,21 @@ window.transition = (function () {
     };
 
     transitionPrototype.tailTransition = function () {
-        if (this.queue.length === 0) {
-            throw Error('transition queue is empty.');
-        }
-
         return this.queue[queue.length - 1];
-    };
+    }
+    .being(ThrowErrorWhenQueueEmpty);
 
     transitionPrototype.headTransition = function () {
-        if (this.queue.length === 0) {
-            throw Error('transition queue is empty.');
-        }
-
         return this.queue[0];
-    };
+    }
+    .being(ThrowErrorWhenQueueEmpty);
 
     transitionPrototype.duration = function (duration) {
-        //TODO: this.tailTransition();
-    };
+    }
+    .being(ThrowErrorWhenQueueEmpty);
 
-    transitionPrototype.delay = function (delay) {};
+    transitionPrototype.delay = function (delay) {}
+    .being(ThrowErrorWhenQueueEmpty);
 
     return exports;
 }());
