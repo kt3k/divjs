@@ -6,12 +6,13 @@
 window.transition = (function () {
     'use strict';
 
-    var exports = function () {
-        return new transition();
+    var exports = function (delegate) {
+        return new transition(delegate);
     };
 
-    var transition = function () {
+    var transition = function (delegate) {
         this.queue = [];
+        this.delegate = delegate;
     };
 
     var transitionPrototype = transition.prototype = exports.prototype = {constructor: exports};
@@ -83,12 +84,18 @@ window.transition = (function () {
     transitionPrototype.defaultDuration = 500;
     transitionPrototype.defaultDelay = 0;
 
-    transitionPrototype.createTransition = function () {
-        return {
+    transitionPrototype.createTransition = function (params) {
+        var transition = {
             duration: this.defaultDuration,
             delay: this.defaultDelay,
             callbacks: []
         };
+
+        Object.keys(params).forEach(function (key) {
+            transition[key] = params[key];
+        });
+
+        return transition;
     };
 
     transitionPrototype.commit = function () {
@@ -98,14 +105,16 @@ window.transition = (function () {
 
         var self = this;
 
+        this.delegate.onTransitionBeforeStart(transition);
+
         setTimeout(function () {
-            self.onStart(transition);
+            self.delegate.onTransitionStart(transition);
         }, transition.delay);
 
         setTimeout(function () {
             self.__lock__ = false;
 
-            self.onStop(transition);
+            self.delegate.onTransitionStop(transition);
 
             self.commit();
 
@@ -118,14 +127,8 @@ window.transition = (function () {
     .E(ToDoNothingWhenEmpty)
     .E(Chainable);
 
-    transitionPrototype.onStart = function () {
-    };
-
-    transitionPrototype.onStop = function () {
-    };
-
-    transitionPrototype.transition = function () {
-        this.queue.push(this.createTransition());
+    transitionPrototype.transition = function (params) {
+        this.queue.push(this.createTransition(params));
     }
     .E(Chainable);
 

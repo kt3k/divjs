@@ -35,6 +35,8 @@ this.div = (function (window) {
         this.nextStyles = {};
         this.transitionQueue = [];
 
+        this.transObj = window.transition(this);
+
         this.prevMet = {};
 
         copyProps(this.met, this.prevMet);
@@ -43,13 +45,13 @@ this.div = (function (window) {
     };
 
     var pt = div.prototype;
-
+/*
     var callIfFunction = function (func, obj, args) {
         if (typeof func === 'function') {
             func.apply(obj, args);
         }
     };
-
+*/
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
         reflectBackgroundColorToDom(dom, met);
@@ -157,7 +159,7 @@ this.div = (function (window) {
 
         return this;
     };
-
+/*
     var bufferable = function (func) {
         return function () {
             var self = this;
@@ -174,7 +176,7 @@ this.div = (function (window) {
             }
         };
     };
-
+*/
     pt.appendTo = function (parent) {
         parent.appendChild(this.dom);
 
@@ -188,10 +190,14 @@ this.div = (function (window) {
 
         return this;
     };
-    pt.remove = bufferable(pt.remove);
+    pt.remove = window.transition.Transitionable(pt.remove);
 
     pt.getDiff = function () {
         return getDiff(this.met, this.prevMet);
+    };
+
+    pt.getTransition = function () {
+        return this.transObj;
     };
 
     pt.transition = function (args) {
@@ -201,27 +207,22 @@ this.div = (function (window) {
 
         var newStyle = {};
 
-        var transition = {
-            duration: args.duration || 500,
-            delay: args.delay || 0,
+        var options = {
             met: newMet,
-            styles: newStyle,
-            callbacks: []
+            styles: newStyle
         };
+
+        this.getTransition().transition(options);
 
         this.met = newMet;
         this.nextStyles = newStyle;
 
-        this.transitionQueue.push(transition);
-
         return this;
     };
 
-    pt.transitionQueueEmpty = function () {
-        return this.transitionQueue.length === 0;
-    };
-
     pt.transitionCommit = function () {
+        this.getTransition().commit();
+/*
         if (this.transitionQueueEmpty()) {
             return;
         }
@@ -241,36 +242,37 @@ this.div = (function (window) {
                 callIfFunction(callback);
             });
         }, transition.delay + transition.duration);
+*/
 
         return this;
     };
 
+    pt.onTransitionStart = function (transition) {
+        this.commit(transition.met, transition.styles);
+    };
+
+    pt.onTransitionStop = function () {};
+
+    pt.onTransitionBeforeStart = function (transition) {
+        this.dom.style.webkitTransitionDuration = transition.duration + 'ms';
+    };
+
     pt.duration = function (duration) {
-        if (!this.transitionQueueEmpty()) {
-            this.transitionQueueLastEntry().duration = duration;
-        }
+        this.getTransition().duration(duration);
 
         return this;
     };
 
     pt.delay = function (delay) {
-        if (!this.transitionQueueEmpty()) {
-            this.transitionQueueLastEntry().delay = delay;
-        }
+        this.getTransition().delay(delay);
 
         return this;
     };
 
     pt.callback = function (callback) {
-        if (!this.transitionQueueEmpty()) {
-            this.transitionQueueLastEntry().callbacks.push(callback);
-        }
+        this.getTransition().callback(callback);
 
         return this;
-    };
-
-    pt.transitionQueueLastEntry = function () {
-        return this.transitionQueue[this.transitionQueue.length - 1];
     };
 
     var exports = function (styles) {
