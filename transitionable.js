@@ -27,6 +27,7 @@ window.transition = (function () {
         };
     };
 
+    // decorator
     var ThrowErrorWhenQueueEmpty = function (func) {
         return function () {
             if (this.queue.length === 0) {
@@ -37,17 +38,28 @@ window.transition = (function () {
         };
     };
 
+    // decorator
+    var Chainable = function (func) {
+        return function () {
+            func.apply(this, arguments);
+
+            return this;
+        };
+    };
+
     Function.prototype.being = function (decorator) {
         return decorator(this);
     };
 
     transitionPrototype.transitionCommit = function () {
         setTimeout();
-    };
+    }
+    .being(Chainable);
 
     transitionPrototype.transition = function () {
         this.queue.push(createTransition());
-    };
+    }
+    .being(Chainable);
 
     transitionPrototype.transitionExists = function () {
         return this.queue.length > 0;
@@ -65,15 +77,18 @@ window.transition = (function () {
 
     transitionPrototype.duration = function (duration) {
         this.tailTransition().duration = duration;
-    };
+    }
+    .being(Chainable);
 
     transitionPrototype.delay = function (delay) {
         this.tailTransition().delay = delay;
-    };
+    }
+    .being(Chainable);
 
     transitionPrototype.callback = function (func) {
         this.tailTransition().callbacks.push(func);
-    };
+    }
+    .being(Chainable);
 
     delete Function.prototype.being;
 
