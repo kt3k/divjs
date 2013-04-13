@@ -22,7 +22,8 @@ window.transition = (function () {
     var createTransition = function () {
         return {
             duration: exports.DURATION,
-            delay: exports.DURATION
+            delay: exports.DURATION,
+            callbacks: []
         };
     };
 
