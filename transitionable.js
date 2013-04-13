@@ -70,5 +70,7 @@ window.transition = (function () {
         this.tailTransition().delay = delay;
     };
 
+    delete Function.prototype.being;
+
     return exports;
 }());
