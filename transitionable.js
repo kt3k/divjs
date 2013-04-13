@@ -70,6 +70,10 @@ window.transition = (function () {
         this.tailTransition().delay = delay;
     };
 
+    transitionPrototype.callback = function (func) {
+        this.tailTransition().callbacks.push(func);
+    };
+
     delete Function.prototype.being;
 
     return exports;
