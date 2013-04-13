@@ -5,7 +5,7 @@ module.exports = (grunt) ->
 
     jshint:
       src:
-        src: ['div.js']
+        src: ['div.js', 'transition.js']
         options:
           jshintrc: '.jshintrc'
 
@@ -16,11 +16,9 @@ module.exports = (grunt) ->
 
     jasmine:
       divjs:
-        src: ['./div.js']
+        src: ['./transition.js', './div.js']
         options:
           specs: ['./test/div_spec.js']
-          junit:
-            path: './.junit'
 
   [
     'grunt-contrib-jshint'
