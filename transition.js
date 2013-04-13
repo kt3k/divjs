@@ -17,13 +17,13 @@ window.transition = (function () {
     var transitionPrototype = transition.prototype = exports.prototype = {constructor: exports};
 
     // decorator
-    var ThrowErrorWhenQueueEmpty = function (func) {
+    var ToThrowErrorWhenEmpty = function (func) {
         return function () {
             if (this.queue.length === 0) {
                 throw Error('transition queue is empty.');
             }
 
-            func.apply(this, arguments);
+            return func.apply(this, arguments);
         };
     };
 
@@ -79,12 +79,12 @@ window.transition = (function () {
     transitionPrototype.tailTransition = function () {
         return this.queue[this.queue.length - 1];
     }
-    .E(ThrowErrorWhenQueueEmpty);
+    .E(ToThrowErrorWhenEmpty);
 
     transitionPrototype.headTransition = function () {
         return this.queue[0];
     }
-    .E(ThrowErrorWhenQueueEmpty);
+    .E(ToThrowErrorWhenEmpty);
 
     transitionPrototype.duration = function (duration) {
         this.tailTransition().duration = duration;
