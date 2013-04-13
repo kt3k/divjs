@@ -63,11 +63,12 @@ window.transition = (function () {
     .being(ThrowErrorWhenQueueEmpty);
 
     transitionPrototype.duration = function (duration) {
-    }
-    .being(ThrowErrorWhenQueueEmpty);
+        this.tailTransition().duration = duration
+    };
 
-    transitionPrototype.delay = function (delay) {}
-    .being(ThrowErrorWhenQueueEmpty);
+    transitionPrototype.delay = function (delay) {
+        this.tailTransition().delay = delay;
+    };
 
     return exports;
 }());
