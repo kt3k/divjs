@@ -44,7 +44,31 @@ this.div = (function (window) {
         this.css(styles);
     };
 
-    var pt = div.prototype;
+    var exports = function (styles) {
+        return new div(styles);
+    };
+
+    var divPrototype = div.prototype = exports.prototype = {constructor: exports};
+
+    exports.x = 0;
+    exports.y = 0;
+    exports.rot = 0;
+    exports.scale = 100;
+    exports.hue = 0;
+    exports.sat = 0;
+    exports.lum = 100;
+
+    exports.webkitTransform = function (met) {
+        return (
+            'translate(' + met.x + 'px,' + met.y + 'px)' +
+            ' rotate(' + met.rot + 'deg)' +
+            ' scale(' + met.scale / 100 + ')'
+        );
+    };
+
+    exports.backgroundColor = function (met) {
+        return 'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)';
+    };
 
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
@@ -99,35 +123,35 @@ this.div = (function (window) {
         return this.prevMet[key];
     });
 
-    pt.addX = methodAdd('x');
-    pt.setX = methodSet('x');
-    pt.getX = methodGet('x');
+    divPrototype.addX = methodAdd('x');
+    divPrototype.setX = methodSet('x');
+    divPrototype.getX = methodGet('x');
 
-    pt.addY = methodAdd('y');
-    pt.setY = methodSet('y');
-    pt.getY = methodGet('y');
+    divPrototype.addY = methodAdd('y');
+    divPrototype.setY = methodSet('y');
+    divPrototype.getY = methodGet('y');
 
-    pt.addScale = methodAdd('scale');
-    pt.setScale = methodSet('scale');
-    pt.getScale = methodGet('scale');
+    divPrototype.addScale = methodAdd('scale');
+    divPrototype.setScale = methodSet('scale');
+    divPrototype.getScale = methodGet('scale');
 
-    pt.addRot = methodAdd('rot');
-    pt.setRot = methodSet('rot');
-    pt.getRot = methodGet('rot');
+    divPrototype.addRot = methodAdd('rot');
+    divPrototype.setRot = methodSet('rot');
+    divPrototype.getRot = methodGet('rot');
 
-    pt.addHue = methodAdd('hue');
-    pt.setHue = methodSet('hue');
-    pt.getHue = methodGet('hue');
+    divPrototype.addHue = methodAdd('hue');
+    divPrototype.setHue = methodSet('hue');
+    divPrototype.getHue = methodGet('hue');
 
-    pt.addSat = methodAdd('sat');
-    pt.setSat = methodSet('sat');
-    pt.getSat = methodGet('sat');
+    divPrototype.addSat = methodAdd('sat');
+    divPrototype.setSat = methodSet('sat');
+    divPrototype.getSat = methodGet('sat');
 
-    pt.addLum = methodAdd('lum');
-    pt.setLum = methodSet('lum');
-    pt.getLum = methodGet('lum');
+    divPrototype.addLum = methodAdd('lum');
+    divPrototype.setLum = methodSet('lum');
+    divPrototype.getLum = methodGet('lum');
 
-    pt.commit = function (met, styles) {
+    divPrototype.commit = function (met, styles) {
         if (met) {
             this.met = met;
         }
@@ -146,7 +170,7 @@ this.div = (function (window) {
         return this;
     };
 
-    pt.css = function (styles) {
+    divPrototype.css = function (styles) {
         if (styles != null) {
             copyProps(styles, this.nextStyles);
         }
@@ -154,30 +178,30 @@ this.div = (function (window) {
         return this;
     };
 
-    pt.appendTo = function (parent) {
+    divPrototype.appendTo = function (parent) {
         parent.appendChild(this.dom);
 
         return this;
     };
 
-    pt.remove = function () {
+    divPrototype.remove = function () {
         if (this.dom.parentElement) {
             this.dom.parentElement.removeChild(this.dom);
         }
 
         return this;
     };
-    pt.remove = window.transition.Transitionable(pt.remove);
+    divPrototype.remove = window.transition.Transitionable(divPrototype.remove);
 
-    pt.getDiff = function () {
+    divPrototype.getDiff = function () {
         return getDiff(this.met, this.prevMet);
     };
 
-    pt.getTransition = function () {
+    divPrototype.getTransition = function () {
         return this.transObj;
     };
 
-    pt.transition = function (args) {
+    divPrototype.transition = function (args) {
         args || (args = {});
         var newMet = {};
         copyProps(this.met, newMet);
@@ -197,66 +221,38 @@ this.div = (function (window) {
         return this;
     };
 
-    pt.transitionCommit = function () {
+    divPrototype.transitionCommit = function () {
         this.getTransition().commit();
 
         return this;
     };
 
-    pt.onTransitionStart = function (transition) {
+    divPrototype.onTransitionStart = function (transition) {
         this.commit(transition.met, transition.styles);
     };
 
-    pt.onTransitionStop = function () {};
+    divPrototype.onTransitionStop = function () {};
 
-    pt.onTransitionBeforeStart = function (transition) {
+    divPrototype.onTransitionBeforeStart = function (transition) {
         this.dom.style.webkitTransitionDuration = transition.duration + 'ms';
     };
 
-    pt.duration = function (duration) {
+    divPrototype.duration = function (duration) {
         this.getTransition().duration(duration);
 
         return this;
     };
 
-    pt.delay = function (delay) {
+    divPrototype.delay = function (delay) {
         this.getTransition().delay(delay);
 
         return this;
     };
 
-    pt.callback = function (callback) {
+    divPrototype.callback = function (callback) {
         this.getTransition().callback(callback);
 
         return this;
-    };
-
-    var exports = function (styles) {
-        return new div(styles);
-    };
-
-    pt.constructor = exports;
-
-    exports.prototype = pt;
-
-    exports.x = 0;
-    exports.y = 0;
-    exports.rot = 0;
-    exports.scale = 100;
-    exports.hue = 0;
-    exports.sat = 0;
-    exports.lum = 100;
-
-    exports.webkitTransform = function (met) {
-        return (
-            'translate(' + met.x + 'px,' + met.y + 'px)' +
-            ' rotate(' + met.rot + 'deg)' +
-            ' scale(' + met.scale / 100 + ')'
-        );
-    };
-
-    exports.backgroundColor = function (met) {
-        return 'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)';
     };
 
     return exports;
