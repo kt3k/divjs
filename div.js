@@ -45,13 +45,7 @@ this.div = (function (window) {
     };
 
     var pt = div.prototype;
-/*
-    var callIfFunction = function (func, obj, args) {
-        if (typeof func === 'function') {
-            func.apply(obj, args);
-        }
-    };
-*/
+
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
         reflectBackgroundColorToDom(dom, met);
@@ -159,24 +153,7 @@ this.div = (function (window) {
 
         return this;
     };
-/*
-    var bufferable = function (func) {
-        return function () {
-            var self = this;
-            var args = arguments;
 
-            if (this.transitionQueueEmpty()) {
-                return func.apply(self, args);
-            } else {
-                this.callback(function () {
-                    return func.apply(self, args);
-                });
-
-                return this;
-            }
-        };
-    };
-*/
     pt.appendTo = function (parent) {
         parent.appendChild(this.dom);
 
@@ -222,27 +199,6 @@ this.div = (function (window) {
 
     pt.transitionCommit = function () {
         this.getTransition().commit();
-/*
-        if (this.transitionQueueEmpty()) {
-            return;
-        }
-
-        var transition = this.transitionQueue.shift();
-        this.dom.style.webkitTransitionDuration = transition.duration + 'ms';
-
-        var that = this;
-        window.setTimeout(function () {
-            that.commit(transition.met, transition.styles);
-        }, transition.delay);
-
-        window.setTimeout(function () {
-            that.transitionCommit();
-
-            transition.callbacks.forEach(function (callback) {
-                callIfFunction(callback);
-            });
-        }, transition.delay + transition.duration);
-*/
 
         return this;
     };
