@@ -50,6 +50,22 @@ this.div = (function (window) {
 
     var divPrototype = div.prototype = exports.prototype = {constructor: exports};
 
+    // decorator enhancement
+    Function.prototype.E = function (decorator) {
+        return decorator(this);
+    };
+
+    var Transitionable = window.transition.Transitionable;
+
+    // decorator
+    var Chainable = function (func) {
+        return function () {
+            func.apply(this, arguments);
+
+            return this;
+        };
+    };
+
     exports.x = 0;
     exports.y = 0;
     exports.rot = 0;
@@ -166,32 +182,28 @@ this.div = (function (window) {
         copyProps(this.nextStyles, this.dom.style);
 
         this.nextStyle = {};
-
-        return this;
-    };
+    }
+    .E(Chainable);
 
     divPrototype.css = function (styles) {
         if (styles != null) {
             copyProps(styles, this.nextStyles);
         }
-
-        return this;
-    };
+    }
+    .E(Chainable);
 
     divPrototype.appendTo = function (parent) {
         parent.appendChild(this.dom);
-
-        return this;
-    };
+    }
+    .E(Chainable);
 
     divPrototype.remove = function () {
         if (this.dom.parentElement) {
             this.dom.parentElement.removeChild(this.dom);
         }
-
-        return this;
-    };
-    divPrototype.remove = window.transition.Transitionable(divPrototype.remove);
+    }
+    .E(Transitionable)
+    .E(Chainable);
 
     divPrototype.getDiff = function () {
         return getDiff(this.met, this.prevMet);
@@ -217,16 +229,15 @@ this.div = (function (window) {
 
         this.met = newMet;
         this.nextStyles = newStyle;
-
-        return this;
-    };
+    }
+    .E(Chainable);
 
     divPrototype.transitionCommit = function () {
         this.getTransition().commit();
+    }
+    .E(Chainable);
 
-        return this;
-    };
-
+    // transition delegations
     divPrototype.onTransitionStart = function (transition) {
         this.commit(transition.met, transition.styles);
     };
@@ -239,21 +250,18 @@ this.div = (function (window) {
 
     divPrototype.duration = function (duration) {
         this.getTransition().duration(duration);
-
-        return this;
-    };
+    }
+    .E(Chainable);
 
     divPrototype.delay = function (delay) {
         this.getTransition().delay(delay);
-
-        return this;
-    };
+    }
+    .E(Chainable);
 
     divPrototype.callback = function (callback) {
         this.getTransition().callback(callback);
-
-        return this;
-    };
+    }
+    .E(Chainable);
 
     return exports;
 }(this));
