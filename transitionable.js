@@ -3,18 +3,18 @@
  * author: Yosiya Hinosawa
  */
 
-window.transible = (function () {
+window.mobile = (function () {
     'use strict';
 
     var exports = function () {
-        return new transible();
+        return new mobile();
     };
 
-    var transible = function () {
+    var mobile = function () {
         this.queue = [];
     };
 
-    var transiblePrototype = transible.prototype = exports.prototype = {constructor: exports};
+    var mobilePrototype = mobile.prototype = exports.prototype = {constructor: exports};
 
     exports.DURATION = 500;
     exports.DELAY = 0;
@@ -26,23 +26,23 @@ window.transible = (function () {
         };
     };
 
-    transiblePrototype.transitionCommit = function () {
+    mobilePrototype.transitionCommit = function () {
         setTimeout();
     };
 
-    transiblePrototype.transition = function () {
+    mobilePrototype.transition = function () {
         this.queue.push(createTransition());
     };
 
-    transiblePrototype.transitionExists = function () {
+    mobilePrototype.transitionExists = function () {
         return this.queue.length > 0;
     };
 
-    transiblePrototype.duration = function (duration) {
+    mobilePrototype.duration = function (duration) {
         //TODO: this.tailTransition();
     };
 
-    transiblePrototype.delay = function (delay) {};
+    mobilePrototype.delay = function (delay) {};
 
     return exports;
 }());
