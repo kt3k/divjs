@@ -247,12 +247,12 @@ this.div = (function (window) {
 
     // transition delegation
     divPrototype.onTransitionBeforeStart = function (transition) {
-        this.setTransitionDuration(duration);
+        this.setTransitionDuration(transition.duration);
     };
 
     divPrototype.setTransitionDuration = function (duration) {
-        this.dom.style.webkitTransitionDuration = transition.duration + 'ms';
-        this.dom.style.transitionDuration = transition.duration + 'ms';
+        this.dom.style.webkitTransitionDuration = duration + 'ms';
+        this.dom.style.transitionDuration = duration + 'ms';
     };
 
     divPrototype.duration = function (duration) {
