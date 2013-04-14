@@ -107,11 +107,11 @@ window.transition = (function () {
 
         this.delegate.onTransitionBeforeStart(transition);
 
-        setTimeout(function () {
+        this.__start__ = setTimeout(function () {
             self.delegate.onTransitionStart(transition);
         }, transition.delay);
 
-        setTimeout(function () {
+        this.__stop__ = setTimeout(function () {
             self.__lock__ = false;
 
             self.delegate.onTransitionStop(transition);
@@ -160,6 +160,13 @@ window.transition = (function () {
         this.tailTransition().callbacks.push(func);
     }
     .E(Chainable);
+
+    transitionPrototype.cancel = function () {
+        clearInterval(this.__start__);
+        clearInterval(this.__stop__);
+        this.queue = [];
+        this.__lock__ = false;
+    };
 
     delete Function.prototype.E;
 

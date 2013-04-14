@@ -242,6 +242,11 @@ this.div = (function (window) {
     }
     .E(Chainable);
 
+    divPrototype.transitionCancel = function () {
+        this.getTransition().cancel();
+    }
+    .E(Chainable);
+
     // transition delegation
     divPrototype.onTransitionStart = function (transition) {
         this.commit(transition.met, transition.styles);
