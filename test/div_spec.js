@@ -232,10 +232,28 @@
         });
         it('appends instance.dom to parent', function() {
           instance.appendTo(document.body);
-          return expect(instance.dom.parentElement).toBe(document.body);
+          expect(instance.dom.parentElement).toBe(document.body);
+          return expect(instance.dom.parentElement.lastChild).toBe(instance.dom);
         });
         return it('returns instance itself', function() {
           return expect(instance.appendTo(document.body)).toBe(instance);
+        });
+      });
+      describe('instance.prependTo(parent)', function() {
+        afterEach(function() {
+          var parent;
+          parent = instance.dom.parentElement;
+          if (parent) {
+            return parent.removeChild(instance.dom);
+          }
+        });
+        it('prepends instance.dom to parent', function() {
+          instance.prependTo(document.body);
+          expect(instance.dom.parentElement).toBe(document.body);
+          return expect(instance.dom.parentElement.firstChild).toBe(instance.dom);
+        });
+        return it('returns instance itself', function() {
+          return expect(instance.prependTo(document.body)).toBe(instance);
         });
       });
       describe('instacne.remove()', function() {

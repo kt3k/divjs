@@ -214,9 +214,25 @@ describe 'div', ->
       it 'appends instance.dom to parent', ->
         instance.appendTo(document.body)
         expect(instance.dom.parentElement).toBe document.body
+        expect(instance.dom.parentElement.lastChild).toBe(instance.dom)
 
       it 'returns instance itself', ->
         expect(instance.appendTo(document.body)).toBe instance
+
+    describe 'instance.prependTo(parent)', ->
+
+      afterEach ->
+        parent = instance.dom.parentElement
+        if parent
+          parent.removeChild(instance.dom)
+
+      it 'prepends instance.dom to parent', ->
+        instance.prependTo(document.body)
+        expect(instance.dom.parentElement).toBe document.body
+        expect(instance.dom.parentElement.firstChild).toBe(instance.dom)
+
+      it 'returns instance itself', ->
+        expect(instance.prependTo(document.body)).toBe instance
 
     describe 'instacne.remove()', ->
 

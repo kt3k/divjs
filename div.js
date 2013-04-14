@@ -197,6 +197,11 @@ this.div = (function (window) {
     }
     .E(Chainable);
 
+    divPrototype.prependTo = function (parent) {
+        parent.insertBefore(this.dom, parent.firstChild);
+    }
+    .E(Chainable);
+
     divPrototype.remove = function () {
         if (this.dom.parentElement) {
             this.dom.parentElement.removeChild(this.dom);
@@ -253,7 +258,8 @@ this.div = (function (window) {
     divPrototype.setTransitionDuration = function (duration) {
         this.dom.style.webkitTransitionDuration = duration + 'ms';
         this.dom.style.transitionDuration = duration + 'ms';
-    };
+    }
+    .E(Chainable);
 
     divPrototype.duration = function (duration) {
         this.getTransition().duration(duration);
