@@ -5,6 +5,14 @@ describe 'div', ->
   it 'is a function', ->
     expect(typeof window.div).toBe 'function'
 
+  describe 'div.webkitTransform', ->
+    it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->
+      expect(window.div.webkitTransform({x: 1, y: 2, rot: 3, scale:4})).toBe 'translate(1px,2px) rotate(3deg) scale(0.04)'
+
+  describe 'div.backgroundColor', ->
+    it 'return "hsl(45,60%,75%)"', ->
+      expect(window.div.backgroundColor({hue: 45, sat: 60, lum: 75})).toBe 'hsl(45,60%,75%)'
+
   describe 'instance of div', ->
     instance = window.div()
 
@@ -363,10 +371,13 @@ describe 'div', ->
 
           waitsFor -> done
 
-  describe 'div.webkitTransform', ->
-    it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->
-      expect(window.div.webkitTransform({x: 1, y: 2, rot: 3, scale:4})).toBe 'translate(1px,2px) rotate(3deg) scale(0.04)'
+    describe 'instance.setTransitionDuration', ->
 
-  describe 'div.backgroundColor', ->
-    it 'return "hsl(45,60%,75%)"', ->
-      expect(window.div.backgroundColor({hue: 45, sat: 60, lum: 75})).toBe 'hsl(45,60%,75%)'
+      it 'returns instance itself', ->
+        expect(instance.setTransitionDuration(0)).toBe instance
+
+      it 'set -webkit-transition-duration and transition-duration styles of instance.dom.', ->
+        instance.setTransitionDuration(333)
+
+        expect(instance.dom.style.transitionDuration).toBe('333ms')
+        expect(instance.dom.style.webkitTransitionDuration).toBe('333ms')

@@ -4,7 +4,26 @@
     it('is a function', function() {
       return expect(typeof window.div).toBe('function');
     });
-    describe('instance of div', function() {
+    describe('div.webkitTransform', function() {
+      return it('returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', function() {
+        return expect(window.div.webkitTransform({
+          x: 1,
+          y: 2,
+          rot: 3,
+          scale: 4
+        })).toBe('translate(1px,2px) rotate(3deg) scale(0.04)');
+      });
+    });
+    describe('div.backgroundColor', function() {
+      return it('return "hsl(45,60%,75%)"', function() {
+        return expect(window.div.backgroundColor({
+          hue: 45,
+          sat: 60,
+          lum: 75
+        })).toBe('hsl(45,60%,75%)');
+      });
+    });
+    return describe('instance of div', function() {
       var instance;
       instance = window.div();
       it('is a Object', function() {
@@ -230,7 +249,7 @@
           return expect(instance.remove()).toBe(instance);
         });
       });
-      return describe('instance.transition()', function() {
+      describe('instance.transition()', function() {
         it('returns instance itself', function() {
           var done;
           done = 0;
@@ -362,24 +381,15 @@
           });
         });
       });
-    });
-    describe('div.webkitTransform', function() {
-      return it('returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', function() {
-        return expect(window.div.webkitTransform({
-          x: 1,
-          y: 2,
-          rot: 3,
-          scale: 4
-        })).toBe('translate(1px,2px) rotate(3deg) scale(0.04)');
-      });
-    });
-    return describe('div.backgroundColor', function() {
-      return it('return "hsl(45,60%,75%)"', function() {
-        return expect(window.div.backgroundColor({
-          hue: 45,
-          sat: 60,
-          lum: 75
-        })).toBe('hsl(45,60%,75%)');
+      return describe('instance.setTransitionDuration', function() {
+        it('returns instance itself', function() {
+          return expect(instance.setTransitionDuration(0)).toBe(instance);
+        });
+        return it('set -webkit-transition-duration and transition-duration styles of instance.dom.', function() {
+          instance.setTransitionDuration(333);
+          expect(instance.dom.style.transitionDuration).toBe('333ms');
+          return expect(instance.dom.style.webkitTransitionDuration).toBe('333ms');
+        });
       });
     });
   });
