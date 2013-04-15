@@ -127,7 +127,9 @@ window.transition = (function () {
     .E(ToDoNothingWhenEmpty)
     .E(Chainable);
 
-    transitionPrototype.transition = function (params) {
+    transitionPrototype.transition = function () {
+        var params = this.delegate.getTransitionAddition();
+
         this.queue.push(this.createTransition(params));
     }
     .E(Chainable);
@@ -169,6 +171,65 @@ window.transition = (function () {
     };
 
     delete Function.prototype.E;
+
+    return exports;
+}());
+
+// abstract class
+window.Transitionable = (function () {
+    'use strict';
+
+    var exports = function () {};
+
+    var transitionablePrototype = exports.prototype;
+
+    Function.prototype.E = function (decorator) { return decorator(this); };
+
+    var Chainable = function (f) {
+        return function () {
+            f.apply(this, arguments);
+
+            return this;
+        };
+    };
+
+    transitionablePrototype.initTransition = function (delegate) {
+        this.__transition__ = window.transition(delegate);
+    };
+
+    transitionablePrototype.getTransition = function () {
+        return this.__transition__;
+    };
+
+    transitionablePrototype.duration = function (duration) {
+        this.getTransition().duration(duration);
+    }
+    .E(Chainable);
+
+    transitionablePrototype.delay = function (delay) {
+        this.getTransition().delay(delay);
+    }
+    .E(Chainable);
+
+    transitionablePrototype.callback = function (callback) {
+        this.getTransition().callback(callback);
+    }
+    .E(Chainable);
+
+    transitionablePrototype.transitionCommit = function () {
+        this.getTransition().commit();
+    }
+    .E(Chainable);
+
+    transitionablePrototype.transitionCancel = function () {
+        this.getTransition().cancel();
+    }
+    .E(Chainable);
+
+    transitionablePrototype.transition = function () {
+        this.getTransition().transition();
+    }
+    .E(Chainable);
 
     return exports;
 }());
