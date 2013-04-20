@@ -16,7 +16,7 @@ module.exports = (grunt) ->
 
     jasmine:
       divjs:
-        src: ['./transition.js', './div.js']
+        src: ['ylep/ylep.js', 'test/ylepenable.js', './transition.js', './div.js']
         options:
           specs: ['./test/div_spec.js']
 

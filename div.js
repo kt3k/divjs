@@ -88,6 +88,8 @@ this.div = (function (window) {
         return 'hsl(' + met.hue + ',' + met.sat + '%,' + met.lum + '%)';
     };
 
+    exports.setBranchGenerator();
+
     var reflectToDom = function (dom, met) {
         reflectTransformationToDom(dom, met);
         reflectBackgroundColorToDom(dom, met);
