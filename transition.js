@@ -231,5 +231,15 @@ window.Transitionable = (function () {
     }
     .E(Chainable);
 
+    transitionablePrototype.getTransitionAddition = function () {
+        return {};
+    };
+
+    transitionablePrototype.onTransitionBeforeStart = function () {};
+
+    transitionablePrototype.onTransitionStart = function () {};
+
+    transitionablePrototype.onTransitionStop = function () {};
+
     return exports;
 }());
