@@ -5,6 +5,12 @@ describe 'div', ->
   it 'is a function', ->
     expect(typeof window.div).toBe 'function'
 
+  it 'is a constructor', ->
+    expect(new window.div() instanceof div).toBe true
+
+  it 'is a factory method', ->
+    expect(window.div() instanceof div).toBe true
+
   describe 'div.webkitTransform', ->
     it 'returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', ->
       expect(window.div.webkitTransform({x: 1, y: 2, rot: 3, scale:4})).toBe 'translate(1px,2px) rotate(3deg) scale(0.04)'
@@ -398,3 +404,22 @@ describe 'div', ->
 
         expect(instance.dom.style.transitionDuration).toBe('333ms')
         expect(instance.dom.style.webkitTransitionDuration).toBe('333ms')
+
+  describe 'instance.constructor', ->
+
+    it 'is a real constructor of div', ->
+
+      constructor = window.div().constructor
+
+      expect(new constructor() instanceof div).toBe true
+
+    it 'is not a factory method', ->
+
+      constructor = window.div().constructor
+
+      try
+        a = constructor()
+      catch e
+        a = null
+
+      expect(a instanceof div).toBe false

@@ -50,7 +50,7 @@ this.div = (function (window) {
 
     var divPrototype = div.prototype = exports.prototype = new window.Transitionable();
 
-    divPrototype.constructor = exports;
+    divPrototype.constructor = div;
 
     // decorator enhancement
     Function.prototype.E = function (decorator) {

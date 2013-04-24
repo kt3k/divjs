@@ -4,6 +4,12 @@
     it('is a function', function() {
       return expect(typeof window.div).toBe('function');
     });
+    it('is a constructor', function() {
+      return expect(new window.div() instanceof div).toBe(true);
+    });
+    it('is a factory method', function() {
+      return expect(window.div() instanceof div).toBe(true);
+    });
     describe('div.webkitTransform', function() {
       return it('returns "translate({x}px,{y}px) rotate({rot}deg) scale({scale/100})"', function() {
         return expect(window.div.webkitTransform({
@@ -23,7 +29,7 @@
         })).toBe('hsl(45,60%,75%)');
       });
     });
-    return describe('instance of div', function() {
+    describe('instance of div', function() {
       var instance;
       instance = window.div();
       it('is a Object', function() {
@@ -408,6 +414,23 @@
           expect(instance.dom.style.transitionDuration).toBe('333ms');
           return expect(instance.dom.style.webkitTransitionDuration).toBe('333ms');
         });
+      });
+    });
+    return describe('instance.constructor', function() {
+      it('is a real constructor of div', function() {
+        var constructor;
+        constructor = window.div().constructor;
+        return expect(new constructor() instanceof div).toBe(true);
+      });
+      return it('is not a factory method', function() {
+        var a, constructor;
+        constructor = window.div().constructor;
+        try {
+          a = constructor();
+        } catch (e) {
+          a = null;
+        }
+        return expect(a instanceof div).toBe(false);
       });
     });
   });
