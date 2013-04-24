@@ -217,7 +217,10 @@ window.Transitionable = (function () {
     .E(Chainable);
 
     transitionablePrototype.transitionCommit = function () {
-        this.getTransition().commit();
+        var self = this;
+        setTimeout(function () {
+            self.getTransition().commit();
+        });
     }
     .E(Chainable);
 

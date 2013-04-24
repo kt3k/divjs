@@ -290,7 +290,7 @@
             setTimeout(function() {
               expect(instance.getRot()).toBe(900);
               return done = 1;
-            });
+            }, 9);
             return waitsFor(function() {
               return done;
             });
@@ -303,11 +303,11 @@
             instance.setRot(0).commit().transition().delay(130).setRot(700).transitionCommit();
             setTimeout(function() {
               return expect(instance.getRot()).toBe(0);
-            }, 129);
+            }, 130);
             setTimeout(function() {
               expect(instance.getRot()).toBe(700);
               return done = 1;
-            }, 131);
+            }, 150);
             return waitsFor(function() {
               return done;
             });
@@ -339,10 +339,10 @@
             }).transitionCommit();
             setTimeout(function() {
               return expect(called).toBe(false);
-            }, 199);
+            }, 200);
             setTimeout(function() {
               return expect(called).toBe(true);
-            }, 201);
+            }, 215);
             setTimeout(function() {
               return done = 1;
             }, 250);
@@ -365,11 +365,11 @@
             setTimeout(function() {
               expect(fCalled).toBe(false);
               return expect(gCalled).toBe(false);
-            }, 99);
+            }, 100);
             setTimeout(function() {
               expect(fCalled).toBe(true);
               return expect(gCalled).toBe(true);
-            }, 101);
+            }, 115);
             setTimeout(function() {
               return done = 1;
             }, 150);
@@ -386,13 +386,13 @@
             expect(instance.dom.parentElement).toBe(document.body);
             setTimeout(function() {
               return expect(instance.dom.parentElement).toBe(document.body);
-            }, 119);
+            }, 120);
             setTimeout(function() {
               return expect(instance.dom.parentElement).toBe(null);
-            }, 121);
+            }, 135);
             setTimeout(function() {
               return done = 1;
-            }, 130);
+            }, 150);
             return waitsFor(function() {
               return done;
             });

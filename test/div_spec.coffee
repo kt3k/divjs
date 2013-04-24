@@ -275,6 +275,7 @@ describe 'div', ->
           setTimeout ->
             expect(instance.getRot()).toBe 900
             done = 1
+          , 9
 
           waitsFor -> done
 
@@ -286,12 +287,12 @@ describe 'div', ->
 
           setTimeout ->
             expect(instance.getRot()).toBe 0
-          , 129
+          , 130
 
           setTimeout ->
             expect(instance.getRot()).toBe 700
             done = 1
-          , 131
+          , 150
 
           waitsFor -> done
 
@@ -322,11 +323,11 @@ describe 'div', ->
 
           setTimeout ->
             expect(called).toBe false
-          , 199
+          , 200
 
           setTimeout ->
             expect(called).toBe true
-          , 201
+          , 215
 
           setTimeout ->
             done = 1
@@ -350,12 +351,12 @@ describe 'div', ->
           setTimeout ->
             expect(fCalled).toBe false
             expect(gCalled).toBe false
-          , 99
+          , 100
 
           setTimeout ->
             expect(fCalled).toBe true
             expect(gCalled).toBe true
-          , 101
+          , 115
 
           setTimeout ->
             done = 1
@@ -375,15 +376,15 @@ describe 'div', ->
 
           setTimeout ->
             expect(instance.dom.parentElement).toBe document.body
-          , 119
+          , 120
 
           setTimeout ->
             expect(instance.dom.parentElement).toBe null
-          , 121
+          , 135
 
           setTimeout ->
             done = 1
-          , 130
+          , 150
 
           waitsFor -> done
 
