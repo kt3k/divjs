@@ -77,10 +77,6 @@ window.transition = (function () {
         };
     };
 
-    Function.prototype.E = function (decorator) {
-        return decorator(this);
-    };
-
     transitionPrototype.defaultDuration = 500;
     transitionPrototype.defaultDelay = 0;
 
@@ -170,8 +166,6 @@ window.transition = (function () {
         this.__lock__ = false;
     };
 
-    delete Function.prototype.E;
-
     return exports;
 }());
 
@@ -182,8 +176,6 @@ window.Transitionable = (function () {
     var exports = function () {};
 
     var transitionablePrototype = exports.prototype;
-
-    Function.prototype.E = function (decorator) { return decorator(this); };
 
     var Chainable = function (f) {
         return function () {

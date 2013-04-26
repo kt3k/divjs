@@ -57,10 +57,12 @@ this.div = (function (window) {
         return decorator(this);
     };
 
-    exports.Transitionable = window.transition.Transitionable;
+    var decorators = exports.decorators = {};
+
+    var Transitionable = decorators.Transitionable = window.transition.Transitionable;
 
     // decorator
-    var Chainable = function (func) {
+    var Chainable = decorators.Chainable = function (func) {
         return function () {
             func.apply(this, arguments);
 
@@ -211,7 +213,7 @@ this.div = (function (window) {
             this.dom.parentElement.removeChild(this.dom);
         }
     }
-    .E(exports.Transitionable)
+    .E(Transitionable)
     .E(Chainable);
 
     divPrototype.getDiff = function () {
@@ -250,8 +252,6 @@ this.div = (function (window) {
         this.dom.style.transitionDuration = duration + 'ms';
     }
     .E(Chainable);
-
-    delete Function.prototype.E;
 
     return exports;
 }(this));
