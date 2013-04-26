@@ -52,11 +52,6 @@ this.div = (function (window) {
 
     divPrototype.constructor = div;
 
-    // decorator enhancement
-    Function.prototype.E = function (decorator) {
-        return decorator(this);
-    };
-
     var decorators = exports.decorators = {};
 
     var Transitionable = decorators.Transitionable = window.transition.Transitionable;
