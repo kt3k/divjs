@@ -57,7 +57,7 @@ this.div = (function (window) {
         return decorator(this);
     };
 
-    var Transitionable = window.transition.Transitionable;
+    exports.Transitionable = window.transition.Transitionable;
 
     // decorator
     var Chainable = function (func) {
@@ -211,7 +211,7 @@ this.div = (function (window) {
             this.dom.parentElement.removeChild(this.dom);
         }
     }
-    .E(Transitionable)
+    .E(exports.Transitionable)
     .E(Chainable);
 
     divPrototype.getDiff = function () {
