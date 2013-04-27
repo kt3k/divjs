@@ -21,7 +21,7 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
 
     var exports = this;
 
-    divPrototype.constructor = function (styles) {
+    divPrototype.constructor = function () {
 
         this.dom = window.document.createElement('div');
 
@@ -42,8 +42,6 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
         this.prevMet = {};
 
         copyProps(this.met, this.prevMet);
-
-        this.css(styles);
     };
 
     var Transitionable = decorators.Transitionable;
