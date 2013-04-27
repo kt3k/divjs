@@ -1,6 +1,7 @@
 /**
  * transition.js v0.1
  * author: Yosiya Hinosawa ( @kt3k )
+ * dependencies: YLEP.js
  */
 
 window.transition = (function () {
@@ -15,7 +16,7 @@ window.transition = (function () {
         this.delegate = delegate;
     };
 
-    var transitionPrototype = transition.prototype = exports.prototype = {constructor: exports};
+    var transitionPrototype = transition.prototype = exports.prototype = {constructor: transition};
 
     // decorator
     var ToThrowErrorWhenEmpty = function (func) {
@@ -56,24 +57,6 @@ window.transition = (function () {
             func.apply(this, arguments);
 
             return this;
-        };
-    };
-
-    // export decorator
-    exports.Transitionable = function (func) {
-        return function () {
-            var self = this;
-            var args = arguments;
-
-            if (!this.getTransition().transitionExists()) {
-                return func.apply(this, arguments);
-            } else {
-                this.getTransition().callback(function () {
-                    func.apply(self, args);
-                });
-
-                return this;
-            }
         };
     };
 
@@ -170,18 +153,31 @@ window.transition = (function () {
 }());
 
 // abstract class
-window.Transitionable = (function () {
+window.Transitionable = Object.branch(function (transitionablePrototype, parant, decorators) {
     'use strict';
 
-    var exports = function () {};
-
-    var transitionablePrototype = exports.prototype;
-
-    var Chainable = function (f) {
+    var Chainable = decorators.Chainable = function (f) {
         return function () {
             f.apply(this, arguments);
 
             return this;
+        };
+    };
+
+    decorators.Transitionable = function (func) {
+        return function () {
+            var self = this;
+            var args = arguments;
+
+            if (!this.getTransition().transitionExists()) {
+                return func.apply(this, arguments);
+            } else {
+                this.getTransition().callback(function () {
+                    func.apply(self, args);
+                });
+
+                return this;
+            }
         };
     };
 
@@ -236,5 +232,5 @@ window.Transitionable = (function () {
 
     transitionablePrototype.onTransitionStop = function () {};
 
-    return exports;
-}());
+    this.setBranchGenerator();
+});

@@ -16,10 +16,12 @@
   * lum: [0, 100]
   */
 
-this.div = (function (window) {
+this.div = this.Transitionable.branch(function (divPrototype, parent, decorators) {
     'use strict';
 
-    var div = function (styles) {
+    var exports = this;
+
+    divPrototype.constructor = function (styles) {
 
         this.dom = window.document.createElement('div');
 
@@ -44,27 +46,10 @@ this.div = (function (window) {
         this.css(styles);
     };
 
-    var exports = function (styles) {
-        return new div(styles);
-    };
-
-    var divPrototype = div.prototype = exports.prototype = new window.Transitionable();
-
-    divPrototype.constructor = div;
-
-    var decorators = exports.decorators = {};
-
-    var Transitionable = decorators.Transitionable = window.transition.Transitionable;
+    var Transitionable = decorators.Transitionable;
 
     // decorator
-    var Chainable = decorators.Chainable = function (func) {
-        return function () {
-            func.apply(this, arguments);
-
-            return this;
-        };
-    };
-
+    var Chainable = decorators.Chainable;
     exports.x = 0;
     exports.y = 0;
     exports.rot = 0;
@@ -247,6 +232,4 @@ this.div = (function (window) {
         this.dom.style.transitionDuration = duration + 'ms';
     }
     .E(Chainable);
-
-    return exports;
-}(this));
+});
