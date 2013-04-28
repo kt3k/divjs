@@ -43,7 +43,7 @@ window.transition = (function () {
     // decorator
     var ToDoNothingWhenLocked = function (func) {
         return function () {
-            if (this.__locked__) {
+            if (this.__lock__) {
                 return;
             }
 
@@ -78,7 +78,7 @@ window.transition = (function () {
     };
 
     transitionPrototype.commit = function () {
-        this.__lock__ = true;
+        this.lock();
 
         var transition = this.queue.shift();
 
@@ -91,7 +91,7 @@ window.transition = (function () {
         }, transition.delay);
 
         this.__stop__ = setTimeout(function () {
-            self.__lock__ = false;
+            self.unlock();
 
             self.delegate.onTransitionStop(transition);
 
@@ -146,7 +146,19 @@ window.transition = (function () {
         clearInterval(this.__start__);
         clearInterval(this.__stop__);
         this.queue = [];
+        this.unlock();
+    };
+
+    transitionPrototype.lock = function () {
+        this.__lock__ = true;
+    };
+
+    transitionPrototype.unlock = function () {
         this.__lock__ = false;
+    };
+
+    transitionPrototype.isLocked = function () {
+        return this.__lock__;
     };
 
     return exports;

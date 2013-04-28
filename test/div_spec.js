@@ -29,7 +29,7 @@
         })).toBe('hsl(45,60%,75%)');
       });
     });
-    describe('instance of div', function() {
+    describe('instance', function() {
       var instance;
       instance = window.div();
       it('is a Object', function() {
@@ -278,14 +278,7 @@
           var done;
           done = 0;
           expect(instance.transition()).toBe(instance);
-          instance.duration(100);
-          instance.transitionCommit();
-          setTimeout(function() {
-            return done = 1;
-          }, 101);
-          return waitsFor(function() {
-            return done;
-          });
+          return instance.transitionCancel();
         });
         describe('transition().setRot(900)', function() {
           return it('set met.rot 900 after (epsilon)ms', function() {
@@ -295,8 +288,9 @@
             expect(instance.getRot()).toBe(0);
             setTimeout(function() {
               expect(instance.getRot()).toBe(900);
+              instance.transitionCancel();
               return done = 1;
-            }, 9);
+            }, 30);
             return waitsFor(function() {
               return done;
             });
@@ -312,6 +306,7 @@
             }, 130);
             setTimeout(function() {
               expect(instance.getRot()).toBe(700);
+              instance.transitionCancel();
               return done = 1;
             }, 150);
             return waitsFor(function() {
@@ -328,6 +323,7 @@
               return expect(instance.dom.style.webkitTransitionDuration).toBe('200ms');
             });
             setTimeout(function() {
+              instance.transitionCancel();
               return done = 1;
             }, 250);
             return waitsFor(function() {

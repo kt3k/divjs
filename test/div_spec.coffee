@@ -19,7 +19,7 @@ describe 'div', ->
     it 'return "hsl(45,60%,75%)"', ->
       expect(window.div.backgroundColor({hue: 45, sat: 60, lum: 75})).toBe 'hsl(45,60%,75%)'
 
-  describe 'instance of div', ->
+  describe 'instance', ->
     instance = window.div()
 
     it 'is a Object', ->
@@ -260,28 +260,22 @@ describe 'div', ->
         done = 0
         expect(instance.transition()).toBe instance
 
-        instance.duration(100)
-
-        instance.transitionCommit()
-
-        setTimeout ->
-          done = 1
-        , 101
-
-        waitsFor -> done
+        instance.transitionCancel()
 
       describe 'transition().setRot(900)', ->
 
         it 'set met.rot 900 after (epsilon)ms', ->
           done = 0
+
           instance.setRot(0).commit().transition().setRot(900).transitionCommit()
 
           expect(instance.getRot()).toBe 0
 
           setTimeout ->
             expect(instance.getRot()).toBe 900
+            instance.transitionCancel()
             done = 1
-          , 9
+          , 30
 
           waitsFor -> done
 
@@ -297,6 +291,7 @@ describe 'div', ->
 
           setTimeout ->
             expect(instance.getRot()).toBe 700
+            instance.transitionCancel()
             done = 1
           , 150
 
@@ -313,6 +308,7 @@ describe 'div', ->
             expect(instance.dom.style.webkitTransitionDuration).toBe '200ms'
 
           setTimeout ->
+            instance.transitionCancel()
             done = 1
           , 250
 
