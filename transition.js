@@ -93,9 +93,11 @@ window.transition = (function () {
         this.__stop__ = setTimeout(function () {
             self.unlock();
 
-            self.delegate.onTransitionStop(transition);
+            if (self.transitionExists()) {
+                self.commit();
+            }
 
-            self.commit();
+            self.delegate.onTransitionStop(transition);
 
             transition.callbacks.forEach(function (func) {
                 func(transition);
@@ -224,8 +226,18 @@ window.Transitionable = Object.branch(function (transitionablePrototype, parant,
         }
 
         setTimeout(function () {
-            self.getTransition().commit();
+            self.transitionCommitSync();
         });
+    }
+    .E(Chainable);
+
+    transitionablePrototype.transitionCommitSync = function () {
+        this.getTransition().commit();
+    }
+    .E(Chainable);
+
+    transitionablePrototype.transitionUnlock = function () {
+        this.getTransition().unlock();
     }
     .E(Chainable);
 
