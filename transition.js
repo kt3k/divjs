@@ -4,21 +4,13 @@
  * dependencies: YLEP.js
  */
 
-window.transition = (function () {
+window.transition = Object.branch(function (transitionPrototype) {
     'use strict';
 
-    var exports = function (delegate) {
-        return new transition(delegate);
-    };
-
-    var transition = function (delegate) {
+    transitionPrototype.constructor = function (delegate) {
         this.queue = [];
         this.delegate = delegate;
     };
-
-    var transitionPrototype = transition.prototype = exports.prototype = {constructor: transition};
-
-    Function.prototype.E = function (d) { return d(this); };
 
     // decorator
     var ToThrowErrorWhenEmpty = function (func) {
@@ -164,11 +156,7 @@ window.transition = (function () {
     transitionPrototype.isLocked = function () {
         return this.__lock__;
     };
-
-    delete Function.prototype.E;
-
-    return exports;
-}());
+});
 
 // abstract class
 window.Transitionable = Object.branch(function (transitionablePrototype, parant, decorators) {
