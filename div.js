@@ -37,7 +37,7 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
         this.nextStyles = {};
         this.transitionQueue = [];
 
-        this.initTransition(this);
+        this.initTransition();
 
         this.prevMet = {};
 

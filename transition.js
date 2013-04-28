@@ -18,6 +18,8 @@ window.transition = (function () {
 
     var transitionPrototype = transition.prototype = exports.prototype = {constructor: transition};
 
+    Function.prototype.E = function (d) { return d(this); };
+
     // decorator
     var ToThrowErrorWhenEmpty = function (func) {
         return function () {
@@ -163,6 +165,8 @@ window.transition = (function () {
         return this.__lock__;
     };
 
+    delete Function.prototype.E;
+
     return exports;
 }());
 
@@ -195,8 +199,8 @@ window.Transitionable = Object.branch(function (transitionablePrototype, parant,
         };
     };
 
-    transitionablePrototype.initTransition = function (delegate) {
-        this.__transition__ = window.transition(delegate);
+    transitionablePrototype.initTransition = function () {
+        this.__transition__ = window.transition(this);
     };
 
     transitionablePrototype.getTransition = function () {
