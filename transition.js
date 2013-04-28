@@ -218,6 +218,11 @@ window.Transitionable = Object.branch(function (transitionablePrototype, parant,
 
     transitionablePrototype.transitionCommit = function () {
         var self = this;
+
+        if (this.getTransition().isLocked()) {
+            return;
+        }
+
         setTimeout(function () {
             self.getTransition().commit();
         });
