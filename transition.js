@@ -217,7 +217,10 @@ window.Transitionable = Object.branch(function (transitionablePrototype, parant,
             return;
         }
 
+        this.getTransition().lock();
+
         setTimeout(function () {
+            self.transitionUnlock();
             self.transitionCommitSync();
         });
     }
