@@ -161,9 +161,9 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
 
         copyProps(this.met, this.prevMet);
 
-        reflectToDom(this.dom, this.met);
-
         copyProps(this.nextStyles, this.dom.style);
+
+        reflectToDom(this.dom, this.met);
 
         this.nextStyle = {};
     }
