@@ -41,6 +41,8 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
 
         this.prevMet = {};
 
+        this.disableColorTransition();
+
         copyProps(this.met, this.prevMet);
     };
 
@@ -81,6 +83,7 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
 
     var reflectTransformationToDom = function (dom, met) {
         dom.style.webkitTransform = exports.webkitTransform(met);
+        dom.style.transform = exports.webkitTransform(met);
     };
 
     var copyProps = function (src, dest) {
@@ -150,6 +153,16 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
     divPrototype.addLum = methodAdd('lum');
     divPrototype.setLum = methodSet('lum');
     divPrototype.getLum = methodGet('lum');
+
+    divPrototype.disableColorTransition = function () {
+        this.dom.style.webkitTransitionProperty = '-webkit-transform opacity';
+        this.dom.style.transitionProperty = 'transform opacity';
+    };
+
+    divPrototype.enableColorTransition = function () {
+        this.dom.style.webkitTransitionProperty = '-webkit-transform background-color opacity';
+        this.dom.style.transitionProperty = 'transform background-color opacity';
+    };
 
     divPrototype.commit = function (met, styles) {
         if (met) {
