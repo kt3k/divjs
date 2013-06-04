@@ -155,13 +155,13 @@ this.div = this.Transitionable.branch(function (divPrototype, parent, decorators
     divPrototype.getLum = methodGet('lum');
 
     divPrototype.disableColorTransition = function () {
-        this.dom.style.webkitTransitionProperty = '-webkit-transform opacity';
-        this.dom.style.transitionProperty = 'transform opacity';
+        this.dom.style.webkitTransitionProperty = '-webkit-transform,opacity';
+        this.dom.style.transitionProperty = 'transform,opacity';
     };
 
     divPrototype.enableColorTransition = function () {
-        this.dom.style.webkitTransitionProperty = '-webkit-transform background-color opacity';
-        this.dom.style.transitionProperty = 'transform background-color opacity';
+        this.dom.style.webkitTransitionProperty = '-webkit-transform,background-color,opacity';
+        this.dom.style.transitionProperty = 'transform,background-color,opacity';
     };
 
     divPrototype.commit = function (met, styles) {
